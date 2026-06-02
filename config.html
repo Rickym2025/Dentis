@@ -1,1 +1,147 @@
-sfd
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurazione Assistente - Dentis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .glass {
+            background: rgba(12, 12, 16, 0.65);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-[#030305] text-gray-100 min-h-screen flex flex-col items-center py-10 px-4">
+
+    <div class="w-full max-w-2xl glass rounded-2xl p-8 shadow-2xl">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-extrabold text-cyan-400">Dentis AI</h1>
+            <p class="text-gray-400 mt-2">Configura l'assistente vocale del tuo studio medico</p>
+        </div>
+
+        <!-- ID STUDIO SELECTION -->
+        <div class="mb-8 p-4 bg-gray-900/40 rounded-xl border border-gray-800 flex flex-col sm:flex-row gap-4 items-end">
+            <div class="flex-1">
+                <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Identificativo Unico Studio (Studio ID)</label>
+                <input type="text" id="studio-id" placeholder="es: studio_rossi_milano" class="w-full bg-black/60 border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-400">
+            </div>
+            <button onclick="loadConfig()" class="w-full sm:w-auto bg-cyan-500 hover:bg-cyan-600 text-black font-bold px-6 py-3 rounded-lg transition-colors">
+                Carica
+            </button>
+        </div>
+
+        <!-- FORM CONFIGURAZIONE (Inizialmente nascosto o disattivato finché non si inserisce l'ID) -->
+        <div id="config-form" class="space-y-6 opacity-40 pointer-events-none transition-opacity duration-300">
+            <div>
+                <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Nome Studio Dentistico</label>
+                <input type="text" id="nome-studio" readonly class="w-full bg-gray-900/50 border border-gray-800 text-gray-500 rounded-lg px-4 py-3 focus:outline-none cursor-not-allowed">
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Nome Assistente Vocale</label>
+                    <input type="text" id="nome-assistente" placeholder="Serena" class="w-full bg-black/60 border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-400">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">ID Google Calendar d'Appoggio</label>
+                    <input type="text" id="calendar-id" placeholder="es: studio.rossi@gmail.com" class="w-full bg-black/60 border border-gray-800 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-cyan-400">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Messaggio di Benvenuto (Prima frase pronunciata)</label>
+                <textarea id="benvenuto" rows="2" class="w-full bg-black/60 border border-gray-800 rounded-lg p-4 text-white focus:outline-none focus:border-cyan-400"></textarea>
+                <span class="text-[10px] text-gray-500 mt-1 block">Usa {{nome_studio}} come segnaposto per far pronunciare dinamicamente il nome della tua clinica.</span>
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Regole e Informazioni Specifiche dello Studio (Prompt Personalizzato)</label>
+                <textarea id="regole-personalizzate" rows="6" placeholder="Aggiungi indicazioni particolari. Esempio: &#10;- Riceviamo solo su appuntamento.&#10;- Il dottor Bianchi fa chirurgia solo il giovedì mattina.&#10;- Parcheggio riservato sul retro dello studio." class="w-full bg-black/60 border border-gray-800 rounded-lg p-4 text-white focus:outline-none focus:border-cyan-400 font-mono text-sm"></textarea>
+            </div>
+
+            <button onclick="saveConfig()" class="w-full bg-cyan-400 hover:bg-cyan-500 text-black font-extrabold text-base py-4 rounded-xl shadow-lg transition-transform active:scale-[0.98]">
+                Salva Configurazione Studio
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let promptOriginaleCompleto = "";
+
+        async function loadConfig() {
+            const studioId = document.getElementById('studio-id').value.trim();
+            if(!studioId) return alert("Inserisci lo Studio ID");
+
+            try {
+                const res = await fetch(`/api/config-get?studio_id=${encodeURIComponent(studioId)}`);
+                const result = await res.json();
+
+                if(!result.success) {
+                    alert("Studio ID non trovato nel database.");
+                    return;
+                }
+
+                const data = result.data;
+                document.getElementById('nome-studio').value = data.nome_studio || '';
+                document.getElementById('nome-assistente').value = data.nome_assistente || 'Serena';
+                document.getElementById('calendar-id').value = data.google_calendar_id || '';
+                document.getElementById('benvenuto').value = data.messaggio_benvenuto || '';
+                
+                // Estrae solo le regole aggiuntive se presenti nel prompt di sistema salvato
+                promptOriginaleCompleto = data.prompt_sistema || '';
+                const splitMarker = "REGOLE AGGIUNTIVE DELLO STUDIO:";
+                if (promptOriginaleCompleto.includes(splitMarker)) {
+                    document.getElementById('regole-personalizzate').value = promptOriginaleCompleto.split(splitMarker)[1].trim();
+                } else {
+                    document.getElementById('regole-personalizzate').value = '';
+                }
+
+                // Attiva il form
+                const form = document.getElementById('config-form');
+                form.classList.remove('opacity-40', 'pointer-events-none');
+
+            } catch (err) {
+                alert("Errore nel caricamento della configurazione.");
+            }
+        }
+
+        async function saveConfig() {
+            const studioId = document.getElementById('studio-id').value.trim();
+            const nomeAssistente = document.getElementById('nome-assistente').value.trim();
+            const calendarId = document.getElementById('calendar-id').value.trim();
+            const benvenuto = document.getElementById('benvenuto').value.trim();
+            const regoleAggiuntive = document.getElementById('regole-personalizzate').value.trim();
+
+            const promptBaseStandard = `Sei ${nomeAssistente}, la receptionist virtuale, empatica dello Studio Dentistico {{nome_studio}}. Il tuo scopo principale è gestire le prenotazioni...`; 
+            // Verrà completato e assemblato sul server per evitare perdite di informazioni nel database.
+
+            const promptSistemaCompleto = promptBaseStandard + "\n\nREGOLE AGGIUNTIVE DELLO STUDIO:\n" + regoleAggiuntive;
+
+            try {
+                const res = await fetch('/api/config-update', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        studio_id: studioId,
+                        nome_assistente: nomeAssistente,
+                        messaggio_benvenuto: benvenuto,
+                        google_calendar_id: calendarId,
+                        prompt_sistema_completo: promptSistemaCompleto
+                    })
+                });
+
+                const data = await res.json();
+                if(data.success) {
+                    alert("Impostazioni salvate con successo!");
+                } else {
+                    alert("Errore: " + data.error);
+                }
+            } catch (err) {
+                alert("Errore di connessione al server.");
+            }
+        }
+    </script>
+</body>
+</html>
