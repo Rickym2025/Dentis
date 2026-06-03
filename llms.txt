@@ -1,0 +1,22 @@
+# Dentis - AI Voice Receptionist for Dental Practices
+
+Dentis is an advanced, voice-first SaaS platform designed to automate reception and appointment scheduling for dental practices using ultra-realistic AI voice agents.
+
+## Core Information
+- **Landing Page:** https://dentis.rmstudio.app
+- **Developer/Founder:** Riccardo Modena (RM Studio)
+- **Target Audience:** B2B, Dental Clinics, Dentists, Medical practices.
+- **Core Agent Name:** Serena (warm, empathetic, native Italian voice).
+
+## Product Offerings & Pricing
+- **Free Trial:** 7-day cardless free trial (full features).
+- **Serena Starter (€79/mo):** Active strictly out-of-hours (nights, weekends). Email appt notifications.
+- **Serena PRO (€149/mo):** 24/7 coverage, emergency triage, Google Calendar sync, automated WhatsApp & Email reminders.
+- **Clinic Elite (€299/mo):** Multi-location, multi-calendar support, dedicated SLA.
+
+## System Architecture
+- **Voice Engine:** Vapi (ElevenLabs text-to-speech + Deepgram transcription).
+- **Database:** Supabase (Auth, Postgres).
+- **Automations:** n8n (Stripe integration, automated reminders, post-call sync).
+- **WhatsApp Gateway:** OpenWA (Self-hosted on Oracle Cloud VPS).
+- **Calendar Integration:** Native Google Calendar tools. No dental legacy software integration required (drag-and-drop buffer model).
