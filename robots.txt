@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /config.html
+Disallow: /api/
+
+Sitemap: https://dentis.rmstudio.app/sitemap.xml
