@@ -1,87 +1,623 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dentis - La Receptionist AI per il tuo Studio Dentistico</title>
+    <title>Dentis | La Receptionist AI H24 per il tuo Studio Dentistico</title>
+    
+    <!-- Metadati SEO -->
+    <meta name="description" content="Non perdere mai più un paziente. Serena risponde al telefono del tuo studio dentistico H24, gestisce le urgenze e fissa gli appuntamenti direttamente su Google Calendar.">
+    <link rel="icon" href="/favicon.ico?v=2" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/logo.png?v=2">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,600&family=DM+Sans:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-[#030305] text-gray-100 font-sans">
-	<video autoplay muted loop playsinline class="fixed top-0 left-0 min-w-full min-h-full object-cover -z-10 opacity-20 pointer-events-none">
-    <source src="/background.mp4" type="video/mp4">
-	</video>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#030305',
+                        brandCyan: '#06b6d4',
+                        brandBlue: '#007bff',
+                        panelBg: 'rgba(12, 12, 14, 0.95)'
+                    },
+                    fontFamily: {
+                        sans: ['"DM Sans"', 'sans-serif'],
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
 
-    <!-- Hero Section -->
-    <header class="max-w-6xl mx-auto px-6 py-20 text-center">
-        <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white mb-6">
-            Non perdere più un paziente.<br>
-            <span class="text-cyan-400">Ci pensa Serena.</span>
-        </h1>
-        <p class="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto mb-10">
-            La receptionist vocale intelligente che risponde al telefono del tuo studio dentistico H24, gestisce le urgenze, trova gli slot liberi e fissa gli appuntamenti direttamente su Google Calendar.
-        </p>
-        <div class="flex flex-col sm:flex-row justify-center gap-4">
-            <a href="mailto:riccardo@rmstudio.app?subject=Richiesta%20Demo%20Dentis" class="bg-cyan-400 hover:bg-cyan-500 text-black font-extrabold text-lg px-8 py-4 rounded-xl transition-all shadow-lg shadow-cyan-500/10">
-                Richiedi una Demo Gratuita
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body {
+            background-color: #030305;
+            color: #f1f5f9;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .glass-panel {
+            backdrop-filter: blur(10px);
+            background: rgba(12, 12, 14, 0.92);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Video GPU acceleration hack */
+        video {
+            transform: translate3d(0,0,0);
+            backface-visibility: hidden;
+            will-change: transform;
+            perspective: 1000;
+        }
+
+        /* Visual Hook: Pulsante principale con animazione pulsante */
+        .btn-pulse-glow { 
+            animation: pulse-glow-cyan 2.5s infinite ease-in-out;
+        }
+        @keyframes pulse-glow-cyan {
+            0%, 100% { box-shadow: 0 0 15px rgba(6, 182, 212, 0.3); }
+            50%      { box-shadow: 0 0 35px rgba(6, 182, 212, 0.7); }
+        }
+
+        /* Decoy Card: Bagliore cangiante per la scelta d'oro */
+        @keyframes decoy-glow {
+            0%, 100% { border-color: rgba(6, 182, 212, 0.3); box-shadow: 0 0 15px rgba(6, 182, 212, 0.15); }
+            50%      { border-color: rgba(6, 182, 212, 0.85); box-shadow: 0 0 30px rgba(6, 182, 212, 0.45); }
+        }
+        .decoy-highlight-card {
+            animation: decoy-glow 3.5s infinite ease-in-out;
+            border-width: 2px;
+        }
+
+        /* ─── STILI WIDGET ORBITALE SINCRO (RM STUDIO) ─── */
+        @keyframes orbit-rotation {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes counter-rotation {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(-360deg); }
+        }
+        @keyframes pulse-ring-optimized {
+            0%, 100% { opacity: 0.2; transform: scale(0.95); }
+            50% { opacity: 0.4; transform: scale(1.05); }
+        }
+        .orbit-ring {
+            position: relative;
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 25px rgba(6, 182, 212, 0.15);
+            animation: orbit-rotation 40s linear infinite;
+        }
+        .orbit-area {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 440px;
+        }
+        .orbit-area:hover .orbit-ring,
+        .orbit-area:hover .orbit-item {
+            animation-play-state: paused;
+        }
+        .orbit-wrapper {
+            position: absolute;
+            width: 64px;
+            height: 64px;
+            transform: translate(-50%, -50%);
+        }
+        .orbit-item {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            animation: counter-rotation 40s linear infinite;
+            transform-origin: center;
+        }
+        .orbit-link {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-sizing: border-box;
+            transition: 0.3s;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            text-decoration: none;
+        }
+        .orbit-link:hover {
+            border-color: #06b6d4;
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+        }
+        .orbit-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .orbit-img.cover {
+            object-fit: cover;
+        }
+        .orbit-img.rounded {
+            border-radius: 50%;
+        }
+        .orbit-center-photo {
+            position: absolute;
+            width: 144px;
+            height: 144px;
+            border-radius: 50%;
+            border: 4px solid #06b6d4;
+            padding: 4px;
+            background: #000;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+            z-index: 15;
+            box-sizing: border-box;
+        }
+        .orbit-center-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        .orbit-tooltip {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            background: #0a0a0c;
+            border: 1px solid rgba(255,255,255,0.08);
+            color: #94a3b8;
+            font-size: 13px;
+            border-radius: 8px;
+            padding: 12px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            text-align: center;
+            z-index: 50;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            line-height: 1.4;
+        }
+        .orbit-tooltip b {
+            color: white;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .orbit-item:hover .orbit-tooltip {
+            opacity: 1;
+        }
+        .pulse-ring-element {
+            position: absolute;
+            width: 288px;
+            height: 288px;
+            background-color: rgba(6, 182, 212, 0.05);
+            filter: blur(48px);
+            border-radius: 9999px;
+            will-change: transform, opacity;
+            animation: pulse-ring-optimized 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</head>
+<body class="antialiased flex flex-col min-h-screen">
+
+    <!-- LAYER BACKGROUND VIDEO FLUIDO -->
+    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+        <video autoplay muted loop playsinline preload="auto" class="w-full h-full object-cover opacity-20">
+            <source src="/background.mp4" type="video/mp4">
+        </video>
+        <div class="absolute inset-0 bg-gradient-to-b from-darkBg/95 via-darkBg/60 to-darkBg"></div>
+    </div>
+
+    <!-- HEADER & NAVBAR -->
+    <header class="fixed top-0 left-0 w-full p-4 md:p-6 z-50 backdrop-blur-md bg-black/25 border-b border-white/5">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <a href="#" class="logo flex items-center gap-3 text-2xl font-black tracking-wide text-white">
+                <img src="/logo.png" alt="Dentis Logo" class="h-10 w-auto object-contain" onerror="this.style.display='none'">
+                <span>Dentis<span class="text-brandCyan">.</span></span>
             </a>
-            <a href="/config" class="bg-gray-950 hover:bg-gray-900 border border-gray-800 text-gray-300 font-bold text-lg px-8 py-4 rounded-xl transition-all">
-                Area Clienti
+            <nav class="hidden md:flex items-center gap-8 text-xs font-bold uppercase tracking-widest text-zinc-400">
+                <a href="#proposta" class="hover:text-white transition-colors">Vantaggi</a>
+                <a href="#funzionamento" class="hover:text-white transition-colors">Come funziona</a>
+                <a href="#prezzi" class="hover:text-white transition-colors">Piani</a>
+                <a href="#ecosistema" class="hover:text-white transition-colors">Ecosistema</a>
+            </nav>
+            <a href="mailto:riccardo@rmstudio.app?subject=Richiesta%20Demo%20Dentis" class="text-[10px] font-black uppercase tracking-widest text-brandCyan hover:text-cyan-300 transition-colors border border-brandCyan/30 px-5 py-2.5 rounded-full bg-brandCyan/5 hover:bg-brandCyan/10">
+                Richiedi Demo
             </a>
         </div>
     </header>
 
-    <!-- Value Propositions -->
-    <section class="max-w-6xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="bg-[#0c0c0e] border border-gray-900 p-8 rounded-2xl">
-            <div class="text-cyan-400 text-3xl mb-4">🚀</div>
-            <h3 class="text-xl font-bold mb-2">Risposta istantanea</h3>
-            <p class="text-gray-400 text-sm">Niente attese, niente segnale di occupato. Serena gestisce più chiamate in parallelo nei momenti di picco o fuori orario.</p>
-        </div>
-        <div class="bg-[#0c0c0e] border border-gray-900 p-8 rounded-2xl">
-            <div class="text-cyan-400 text-3xl mb-4">📅</div>
-            <h3 class="text-xl font-bold mb-2">Integrazione Google Calendar</h3>
-            <p class="text-gray-400 text-sm">L'AI consulta le disponibilità in tempo reale e inserisce la prenotazione. La segretaria deve solo confermarla.</p>
-        </div>
-        <div class="bg-[#0c0c0e] border border-gray-900 p-8 rounded-2xl">
-            <div class="text-cyan-400 text-3xl mb-4">🩺</div>
-            <h3 class="text-xl font-bold mb-2">Gestione delle urgenze</h3>
-            <p class="text-gray-400 text-sm">Identifica subito i pazienti con forte mal di denti e li inserisce prioritariamente negli slot di emergenza della giornata.</p>
-        </div>
-    </section>
+    <!-- CONTENT LAYER -->
+    <main class="relative z-10 flex flex-col w-full">
 
-    <!-- Come funziona -->
-    <section class="max-w-5xl mx-auto px-6 py-20 border-t border-gray-900">
-        <h2 class="text-3xl font-bold text-center mb-12">Come funziona?</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div>
-                <p class="text-gray-400 mb-6 leading-relaxed">
-                    Nessun software invasivo da installare. Serena si interfaccia con il tuo numero di telefono storico tramite una semplice deviazione di chiamata (attiva solo quando sei chiuso o occupato).
-                </p>
-                <p class="text-gray-400 leading-relaxed">
-                    La conversazione vocale è talmente realistica, fluida ed empatica che molti pazienti non si accorgeranno nemmeno di parlare con un'intelligenza artificiale.
-                </p>
-            </div>
-            <div class="bg-[#0c0c0e] border border-gray-900 p-8 rounded-2xl space-y-4">
-                <div class="flex items-start gap-4">
-                    <span class="bg-cyan-950 text-cyan-400 font-bold px-3 py-1 rounded-lg text-sm">1</span>
-                    <p class="text-sm text-gray-300">Il paziente chiama fuori orario cercando una pulizia dei denti.</p>
+        <!-- HERO SECTION -->
+        <section class="min-h-screen flex flex-col items-center justify-center px-6 pt-32 pb-20 text-center">
+            <div class="max-w-4xl mx-auto">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brandCyan/10 border border-brandCyan/30 text-brandCyan text-xs font-bold uppercase tracking-widest mb-6">
+                    ⚡ Odontoiatria 4.0
                 </div>
-                <div class="flex items-start gap-4">
-                    <span class="bg-cyan-950 text-cyan-400 font-bold px-3 py-1 rounded-lg text-sm">2</span>
-                    <p class="text-sm text-gray-300">Serena controlla il calendario d'appoggio e propone martedì alle 10:00.</p>
-                </div>
-                <div class="flex items-start gap-4">
-                    <span class="bg-cyan-950 text-cyan-400 font-bold px-3 py-1 rounded-lg text-sm">3</span>
-                    <p class="text-sm text-gray-300">L'appuntamento viene preso e la segretaria riceve un'email con il riassunto.</p>
+                
+                <h1 class="text-5xl md:text-7xl font-black tracking-tight leading-[1.05] mb-8 text-white">
+                    Non perdere più un paziente.<br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-brandCyan via-cyan-400 to-cyan-600">
+                        Ci pensa Serena.
+                    </span>
+                </h1>
+                
+                <p class="text-lg md:text-xl text-zinc-300 max-w-2xl mx-auto mb-12 font-light leading-relaxed">
+                    Serena è la receptionist telefonica intelligente progettata per l'odontoiatria. Risponde al telefono del tuo studio H24, gestisce il triage delle urgenze e fissa gli appuntamenti direttamente sulla tua agenda in tempo reale.
+                </p>
+
+                <div class="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-4 max-w-md mx-auto">
+                    <a href="mailto:riccardo@rmstudio.app?subject=Richiesta%20Demo%20Dentis" class="btn-pulse-glow bg-brandCyan hover:bg-cyan-500 text-black font-black text-lg px-10 py-5 rounded-xl transition-all transform hover:scale-[1.02] shadow-[0_0_20px_rgba(6,182,212,0.3)] text-center">
+                        Prova Serena Gratis 🔥
+                    </a>
+                    <a href="/config" class="bg-zinc-900/60 hover:bg-zinc-900 border border-zinc-800 text-zinc-300 font-bold text-lg px-8 py-5 rounded-xl transition-all text-center">
+                        Area Clienti
+                    </a>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Footer -->
-    <footer class="text-center py-12 text-gray-600 text-xs border-t border-gray-950">
-        <p>&copy; 2026 Dentis - Un prodotto RM Studio. Tutti i diritti riservati.</p>
+        <!-- VALUE PROPOSITIONS -->
+        <section id="proposta" class="py-24 px-6 border-t border-white/5 bg-zinc-950/20">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-16">
+                    <p class="font-mono text-xs text-brandCyan uppercase tracking-[5px] mb-4">Vantaggi Clinici</p>
+                    <h2 class="text-3xl md:text-5xl font-black tracking-tight uppercase">Più tempo alla cura, meno alla linea</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="glass-panel p-8 rounded-3xl hover:border-brandCyan/20 transition-all duration-300 group">
+                        <div class="w-12 h-12 bg-brandCyan/10 rounded-2xl flex items-center justify-center text-brandCyan text-2xl border border-brandCyan/20 mb-6 group-hover:bg-brandCyan/20 transition-colors">🚀</div>
+                        <h3 class="text-xl font-bold mb-3 text-white">Linee occupate azzerate</h3>
+                        <p class="text-zinc-400 text-sm leading-relaxed">Nessuna attesa o segnale di occupato. Serena risponde simultaneamente a decine di chiamate in parallelo nei picchi di traffico o durante la chiusura.</p>
+                    </div>
+
+                    <div class="glass-panel p-8 rounded-3xl hover:border-brandCyan/20 transition-all duration-300 group">
+                        <div class="w-12 h-12 bg-brandCyan/10 rounded-2xl flex items-center justify-center text-brandCyan text-2xl border border-brandCyan/20 mb-6 group-hover:bg-brandCyan/20 transition-colors">📅</div>
+                        <h3 class="text-xl font-bold mb-3 text-white">Agenda Sincronizzata</h3>
+                        <p class="text-zinc-400 text-sm leading-relaxed">Interfacciata direttamente con Google Calendar. Serena propone gli slot liberi, prende l&apos;appuntamento in tempo reale e invia una notifica immediata alla segretaria.</p>
+                    </div>
+
+                    <div class="glass-panel p-8 rounded-3xl hover:border-brandCyan/20 transition-all duration-300 group">
+                        <div class="w-12 h-12 bg-brandCyan/10 rounded-2xl flex items-center justify-center text-brandCyan text-2xl border border-brandCyan/20 mb-6 group-hover:bg-brandCyan/20 transition-colors">🩺</div>
+                        <h3 class="text-xl font-bold mb-3 text-white">Triage Urgenze</h3>
+                        <p class="text-zinc-400 text-sm leading-relaxed">Riconosce i sintomi gravi (ascessi, forti dolori) e inserisce l&apos;ospite prioritariamente negli slot di emergenza pre-configurati della giornata.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEZIONE INTERATTIVA: SIMULATORE DI CHIAMATA -->
+        <section class="py-24 px-6 border-t border-white/5 bg-zinc-950/40">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-16">
+                    <p class="font-mono text-xs text-brandCyan uppercase tracking-[5px] mb-4">Interattivo</p>
+                    <h2 class="text-3xl md:text-5xl font-black tracking-tight uppercase">Simula la conversazione</h2>
+                    <p class="text-zinc-400 text-sm mt-3">Clicca su uno dei casi reali per vedere come Serena risponde al telefono</p>
+                </div>
+
+                <div class="max-w-2xl mx-auto bg-zinc-950 border-2 border-brandCyan/30 rounded-[2.5rem] overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.8)]">
+                    <div class="bg-zinc-900 px-6 py-4 border-b border-white/5 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <span class="w-3 h-3 rounded-full bg-brandCyan shadow-[0_0_10px_#06b6d4]"></span>
+                            <span class="font-mono text-xs uppercase tracking-wider text-zinc-300">DENTIS SIMULATOR</span>
+                        </div>
+                        <span class="text-[10px] bg-brandCyan/10 text-brandCyan border border-brandCyan/30 px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">Serena AI</span>
+                    </div>
+
+                    <div id="sim-messages" class="p-6 h-[280px] overflow-y-auto flex flex-col gap-4 bg-[#050508]">
+                        <div class="p-4 bg-zinc-900 border border-white/5 rounded-2xl rounded-bl-sm text-sm text-zinc-200 self-start max-w-[85%]">
+                            Pronto, studio dentistico del Dottore. Sono Serena, l&apos;assistente AI dello studio. Come posso aiutarla oggi?
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-zinc-900 border-t border-white/5 flex flex-wrap gap-2 justify-center">
+                        <button onclick="triggerSim('dolore')" class="bg-brandCyan/10 border border-brandCyan/30 text-brandCyan text-xs font-bold px-4 py-2.5 rounded-full hover:bg-brandCyan hover:text-black transition">Mal di denti forte (Urgenza)</button>
+                        <button onclick="triggerSim('appuntamento')" class="bg-cyan-500/15 border border-cyan-500/30 text-cyan-400 text-xs font-bold px-4 py-2.5 rounded-full hover:bg-cyan-400 hover:text-black transition">Pulizia dei denti (Ordinario)</button>
+                        <button onclick="triggerSim('chiusura')" class="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold px-4 py-2.5 rounded-full hover:bg-emerald-500 hover:text-black transition">Chiamata fuori orario</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COME FUNZIONA -->
+        <section id="funzionamento" class="py-24 px-6 border-t border-white/5">
+            <div class="max-w-5xl mx-auto">
+                <div class="text-center mb-16">
+                    <p class="font-mono text-xs text-brandCyan uppercase tracking-[5px] mb-4">Integrazione</p>
+                    <h2 class="text-3xl md:text-5xl font-black tracking-tight uppercase">Attivazione in 5 minuti</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-6">
+                        <p class="text-zinc-300 leading-relaxed font-light">
+                            Nessun software invasivo o costoso hardware da installare in studio. Serena si interfaccia con il tuo numero di telefono storico tramite una **semplice deviazione di chiamata** (attivabile quando la linea è occupata, libera o solo fuori orario).
+                        </p>
+                        <p class="text-zinc-300 leading-relaxed font-light">
+                            La conversazione vocale generata dai nostri server è talmente fluida, naturale ed empatica che la maggior parte dei pazienti non si accorgerà nemmeno di parlare con una macchina.
+                        </p>
+                    </div>
+                    <div class="glass-panel p-8 rounded-[2rem] space-y-6">
+                        <div class="flex items-start gap-4">
+                            <span class="bg-brandCyan/10 text-brandCyan font-black px-3.5 py-1.5 rounded-xl text-sm border border-brandCyan/20">1</span>
+                            <div>
+                                <h4 class="font-bold text-white mb-1">Attivazione Deviazione</h4>
+                                <p class="text-sm text-zinc-400">Configuri la deviazione sul tuo numero storico (es. dopo 3 squilli a vuoto o quando chiuso).</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <span class="bg-brandCyan/10 text-brandCyan font-black px-3.5 py-1.5 rounded-xl text-sm border border-brandCyan/20">2</span>
+                            <div>
+                                <h4 class="font-bold text-white mb-1">Allineamento Agenda</h4>
+                                <p class="text-sm text-zinc-400">Serena consulta in tempo reale gli slot liberi su Google Calendar o sulla tua piattaforma d&apos;appoggio.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <span class="bg-brandCyan/10 text-brandCyan font-black px-3.5 py-1.5 rounded-xl text-sm border border-brandCyan/20">3</span>
+                            <div>
+                                <h4 class="font-bold text-white mb-1">Notifica & Conferma</h4>
+                                <p class="text-sm text-zinc-400">L&apos;appuntamento viene inserito. La segretaria riceve un riepilogo via Email ed ha il controllo finale.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEUROMARKETING PRICING -->
+        <section id="prezzi" class="py-24 px-6 border-t border-white/5 bg-zinc-950/30">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-20">
+                    <p class="font-mono text-xs text-brandCyan uppercase tracking-[5px] mb-4">Struttura Trasparente</p>
+                    <h2 class="text-3xl md:text-5xl font-black tracking-tight uppercase">Un solo paziente salvato ripaga l&apos;anno</h2>
+                    <p class="text-zinc-400 text-sm mt-3">Nessun costo fisso per licenze. Scegli il piano ideale per le dimensioni del tuo studio.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch max-w-5xl mx-auto">
+                    
+                    <!-- PACCHETTO 1: STARTER -->
+                    <div class="glass-panel p-8 rounded-3xl flex flex-col justify-between hover:border-white/10 transition-all duration-300">
+                        <div>
+                            <span class="text-zinc-500 font-bold uppercase tracking-widest text-xs block mb-2">L&apos;Ancoraggio</span>
+                            <h3 class="text-xl font-bold text-white mb-1">Daria/Serena Starter</h3>
+                            <p class="text-xs text-zinc-400 mb-6 leading-relaxed">Ideale per coprire le ore di chiusura dello studio.</p>
+                            <div class="mb-7 flex items-end gap-1">
+                                <span class="text-5xl font-black text-white">€ 79</span>
+                                <span class="text-zinc-500 text-xs pb-1">/ mese</span>
+                            </div>
+                            <ul class="text-xs text-zinc-300 space-y-3 mb-8">
+                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Risposta attiva **solo fuori orario** (notti e weekend)</li>
+                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Notifica appuntamenti presi direttamente via Email</li>
+                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Configurazione rapida deviazione</li>
+                            </ul>
+                        </div>
+                        <a href="mailto:riccardo@rmstudio.app?subject=Attivazione%20Dentis%20Starter" class="block text-center w-full border border-white/20 text-white hover:bg-white/10 py-3 rounded-xl font-bold transition-all text-xs uppercase tracking-widest">
+                            Attiva Starter
+                        </a>
+                    </div>
+
+                    <!-- PACCHETTO 2: PRO (DECOY GOLDEN CHOICE) -->
+                    <div class="decoy-highlight-card glass-panel p-8 rounded-3xl flex flex-col justify-between relative transform md:-translate-y-4 bg-gradient-to-b from-cyan-950/20 to-black z-10 scale-105">
+                        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-brandCyan text-black text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg">CONSIGLIATO PER STUDI INDIPENDENTI</div>
+                        <div>
+                            <span class="text-brandCyan font-bold uppercase tracking-widest text-xs block mb-2">La Scelta d&apos;Oro</span>
+                            <h3 class="text-xl font-bold text-white mb-1">Serena PRO</h3>
+                            <p class="text-xs text-zinc-200 mb-6 leading-relaxed">Presidio totale per non perdere nessuna emergenza.</p>
+                            <div class="mb-7 flex items-end gap-1">
+                                <span class="text-5xl font-black text-white">€ 149</span>
+                                <span class="text-zinc-500 text-xs pb-1">/ mese</span>
+                            </div>
+                            <p class="text-xs text-brandCyan font-medium mb-6">Meno di 5€ al giorno. Un solo paziente salvato ripaga l&apos;intero anno.</p>
+                            <ul class="text-xs text-zinc-200 space-y-3 mb-8">
+                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> **Risposta H24** (anche quando la segretaria è occupata)</li>
+                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> **Triage urgenze prioritarie** (es. forte mal di denti)</li>
+                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Sincronizzazione automatica Google Calendar</li>
+                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Conferma appuntamenti via SMS/WhatsApp al paziente</li>
+                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Report mensile delle chiamate ricevute</li>
+                            </ul>
+                        </div>
+                        <a href="mailto:riccardo@rmstudio.app?subject=Attivazione%20Dentis%20Pro" class="block text-center w-full bg-brandCyan text-black font-black py-4 rounded-xl text-xs uppercase tracking-widest hover:bg-cyan-400 transition-all shadow-lg shadow-cyan-500/25">
+                            SBLOCCA SERENA PRO 🔥
+                        </a>
+                    </div>
+
+                    <!-- PACCHETTO 3: ELITE -->
+                    <div class="glass-panel p-8 rounded-3xl flex flex-col justify-between hover:border-white/10 transition-all duration-300 opacity-80 hover:opacity-100">
+                        <div>
+                            <span class="text-zinc-500 font-bold uppercase tracking-widest text-xs block mb-2">La Deviazione di Lusso</span>
+                            <h3 class="text-xl font-bold text-white mb-1">Clinic Elite</h3>
+                            <p class="text-xs text-zinc-400 mb-6 leading-relaxed">Ideale per cliniche multi-poltrona e studi associati.</p>
+                            <div class="mb-7 flex items-end gap-1">
+                                <span class="text-5xl font-black text-white">€ 299</span>
+                                <span class="text-zinc-500 text-xs pb-1">/ mese</span>
+                            </div>
+                            <ul class="text-xs text-zinc-300 space-y-3 mb-8">
+                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Gestione multi-sede e multi-calendario medici dello studio</li>
+                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Supporto tecnico prioritario h24</li>
+                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Modifiche illimitate e personalizzate alle istruzioni dell&apos;AI</li>
+                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Integrazioni dedicate con sistemi di gestione</li>
+                            </ul>
+                        </div>
+                        <a href="mailto:riccardo@rmstudio.app?subject=Attivazione%20Dentis%20Elite" class="block text-center w-full border border-white/20 text-white hover:bg-white/10 py-3 rounded-xl font-bold transition-all text-xs uppercase tracking-widest">
+                            Richiedi Elite
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SEZIONE E-E-A-T: AUTOREVOLEZZA E WIDGET ORBITALE RM STUDIO -->
+        <section id="ecosistema" class="border-t border-white/10 bg-[#020202]/80 backdrop-blur-xl py-24 px-6 relative">
+            <div class="max-w-6xl mx-auto grid lg:grid-cols-12 gap-16 items-center">
+                
+                <!-- Area Orbitale RM Studio (Caricata asincronamente dall'esterno) -->
+                <div class="lg:col-span-5 flex justify-center items-center relative min-h-[440px] orbit-area" id="orbit-template-container">
+                    <!-- Verrà iniettato dinamicamente via JS fetch -->
+                </div>
+
+                <!-- Profilo Autorevolezza RM Studio -->
+                <div class="lg:col-span-7 space-y-6 text-left">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-brandCyan text-xs font-bold uppercase tracking-widest">
+                        Esperienza & Autorevolezza
+                    </div>
+                    <h2 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight leading-tight">
+                        Tecnologia proprietaria firmata <span class="text-brandCyan">RM Studio</span>
+                    </h2>
+                    
+                    <p class="text-slate-300 text-lg leading-relaxed font-light">
+                        Sviluppato dal programmatore <b>Riccardo Modena</b>, Dentis fa parte di un ecosistema integrato di soluzioni software dedicate all'automazione aziendale. Crediamo in un'intelligenza artificiale accessibile, etica e protetta per i professionisti sanitari.
+                    </p>
+                    
+                    <p class="text-slate-300 text-lg leading-relaxed font-light">
+                        Come raccomandato dalle più recenti indagini sulla gestione degli studi odontoiatrici della <a href="https://www.nar.realtor/" target="_blank" rel="noopener" class="text-brandCyan underline hover:text-cyan-300">National Association of Realtors (NAR)</a> e dalle policy europee in materia sanitaria, l'automatizzazione asincrona dei flussi di contatto abbatte drasticamente le perdite commerciali e garantisce conformità assoluta ai regolamenti vigenti.
+                    </p>
+
+                    <div class="pt-4 flex flex-wrap gap-4">
+                        <a href="https://www.linkedin.com/in/riccardo-modena-13918a61/" target="_blank" class="bg-white/5 hover:bg-white/10 text-white font-bold px-6 py-3 rounded-full text-sm transition-all border border-white/10 flex items-center gap-2">
+                            <span>Segui Riccardo Modena su LinkedIn</span>
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+
+        <!-- NEUROMARKETING FAQ -->
+        <section class="py-24 px-6 border-t border-white/5">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold mb-12 text-center uppercase tracking-tight">Domande Frequenti</h2>
+                <div class="space-y-4">
+                    <div class="glass-panel p-6 rounded-2xl">
+                        <h3 class="font-bold text-lg text-brandCyan mb-2">I pazienti capiranno che si tratta di un&apos;Intelligenza Artificiale?</h3>
+                        <p class="text-zinc-300 text-sm leading-relaxed">Il motore vocale di Serena è addestrato con algoritmi proprietari avanzati. Le risposte sono istantanee, con toni caldi, pause umane ed empatia reale. Molti pazienti non si accorgono minimamente di parlare con un algoritmo, ma percepiscono semplicemente un servizio di reception di altissimo livello.</p>
+                    </div>
+                    <div class="glass-panel p-6 rounded-2xl">
+                        <h3 class="font-bold text-lg text-brandCyan mb-2">Il servizio rispetta la privacy e la conformità GDPR?</h3>
+                        <p class="text-zinc-300 text-sm leading-relaxed">Sì, la conformità legale è una nostra priorità. Tutte le informazioni scambiate durante le telefonate e i dettagli degli appuntamenti sono crittografati e gestiti in conformità con i protocolli europei GDPR a tutela del segreto professionale medico.</p>
+                    </div>
+                    <div class="glass-panel p-6 rounded-2xl">
+                        <h3 class="font-bold text-lg text-brandCyan mb-2">Come si gestiscono i casi in cui Serena non conosce una risposta?</h3>
+                        <p class="text-zinc-300 text-sm leading-relaxed">Serena è addestrata esclusivamente sulle regole del tuo studio. Se un paziente effettua una richiesta medica complessa o non prevista dalle linee guida configurate, Serena risponderà cortesemente prendendo nota della richiesta ed inviando una notifica immediata alla segreteria fisica per essere ricontattato.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-white/10 bg-black py-16 px-6 relative z-10">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-10 text-center md:text-left">
+            <div class="max-w-xs">
+                <div class="flex items-center justify-center md:justify-start gap-3 text-white font-black text-xl mb-3">
+                    <img src="/logo.png" alt="Dentis Logo" class="h-9 w-auto object-contain" onerror="this.style.display='none'">
+                    <span>Dentis<span class="text-brandCyan italic">.</span></span>
+                </div>
+                <p class="text-zinc-500 text-xs leading-relaxed">Ingegneria dei Sistemi Autonometri.<br>Sviluppato da RM Studio.</p>
+                <p class="text-zinc-700 text-[10px] mt-5">
+                    © 2026 RM Studio. Tutti i diritti riservati. <br>
+                    <a href="https://rmstudio.app/privacy.html" target="_blank" class="text-zinc-500 hover:text-brandCyan transition-colors underline mt-1 inline-block">Privacy Policy</a>
+                    <span class="mx-2 text-zinc-700">|</span> 
+                    <a href="https://rmstudio.app/termini.html" target="_blank" class="text-zinc-500 hover:text-brandCyan transition-colors underline mt-1 inline-block">Termini e Condizioni</a>
+                </p>
+            </div>
+
+            <div class="flex flex-col items-center md:items-start gap-3">
+                <h4 class="text-white font-black text-[9px] uppercase tracking-widest mb-1">Social Hub</h4>
+                <div class="flex gap-3">
+                    <a href="https://www.instagram.com/riccardo_mode_/" target="_blank" class="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-zinc-500 hover:text-white hover:border-brandCyan/50 transition-all text-xs font-bold">IG</a>
+                    <a href="https://www.facebook.com/riccardo.modena.792" target="_blank" class="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-zinc-500 hover:text-white hover:border-brandCyan/50 transition-all text-xs font-bold">FB</a>
+                    <a href="https://www.linkedin.com/in/riccardo-modena-13918a61/" target="_blank" class="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-zinc-500 hover:text-white hover:border-brandCyan/50 transition-all text-xs font-bold">IN</a>
+                    <a href="https://www.tiktok.com/@mr3d.riccardo" target="_blank" class="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-zinc-500 hover:text-white hover:border-brandCyan/50 transition-all text-xs font-bold">TK</a>
+                </div>
+            </div>
+
+            <div class="flex flex-col items-center md:items-end gap-2 text-center md:text-right">
+                <h4 class="text-white font-black text-[9px] uppercase tracking-widest mb-3">Supporto</h4>
+                <a href="mailto:riccardo@rmstudio.app?subject=Supporto%20Dentis" class="bg-white/8 hover:bg-white/15 border border-white/15 text-white px-6 py-2 rounded-full text-xs font-bold transition-all">
+                    Parla con noi
+                </a>
+            </div>
+        </div>
     </footer>
 
+    <!-- INTERACTIVE SIMULATOR SCRIPT -->
+    <script>
+        const SIM_RESPONSES = {
+            dolore: {
+                user: "Buongiorno, ho un forte dolore a un dente da ieri sera, non riesco a dormire.",
+                bot: "La capisco benissimo, il mal di denti può essere davvero insopportabile. Ho contrassegnato la sua richiesta come <b>Urgenza</b>. Per questo tipo di casi abbiamo tenuto liberi degli slot prioritari oggi pomeriggio alle <b>15:30</b> o alle <b>17:00</b>. Quale preferisce?"
+            },
+            appuntamento: {
+                user: "Salve, vorrei prenotare una seduta per una pulizia dei denti ordinaria.",
+                bot: "Perfetto! Per l'igiene orale ordinaria ho disponibilità per la prossima settimana. Posso proporle <b>Martedì alle 10:00</b> oppure <b>Giovedì alle 14:30</b>. C'è un orario che le è più comodo?"
+            },
+            chiusura: {
+                user: "Pronto? Chiamo perché vorrei sapere se siete aperti il sabato mattina.",
+                bot: "Il nostro studio è aperto dal lunedì al venerdì dalle 9:00 alle 19:30. Il sabato siamo chiusi, ma io sono comunque attiva H24 per aiutarla a fissare, spostare o cancellare appuntamenti. Desidera prenotare un controllo per settimana prossima?"
+            }
+        };
+
+        function triggerSim(key) {
+            const simBox = document.getElementById('sim-messages');
+            const data = SIM_RESPONSES[key];
+            if (!data) return;
+
+            simBox.innerHTML = `<div class="p-4 bg-brandCyan/10 border border-brandCyan/20 rounded-2xl rounded-br-sm text-sm text-zinc-100 self-end max-w-[85%]">${data.user}</div>`;
+            
+            const loadingId = 'sim-loading';
+            const loadDiv = document.createElement('div');
+            loadDiv.className = 'p-4 bg-zinc-900 border border-white/5 rounded-2xl rounded-bl-sm text-sm text-zinc-200 self-start max-w-[85%]';
+            loadDiv.id = loadingId;
+            loadDiv.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
+            simBox.appendChild(loadDiv);
+            simBox.scrollTop = simBox.scrollHeight;
+
+            setTimeout(() => {
+                const el = document.getElementById(loadingId);
+                if (el) el.remove();
+
+                const botDiv = document.createElement('div');
+                botDiv.className = 'p-4 bg-zinc-900 border border-white/5 rounded-2xl rounded-bl-sm text-sm text-zinc-200 self-start max-w-[85%]';
+                botDiv.innerHTML = data.bot;
+                simBox.appendChild(botDiv);
+                simBox.scrollTop = simBox.scrollHeight;
+            }, 1200);
+        }
+
+        // Carica dinamicamente l'ecosistema orbitale condiviso (URL canonico finale di RM Studio)
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch("https://www.rmstudio.app/orbit-template?v=1")
+                .then((res) => {
+                    if (!res.ok) throw new Error("Errore caricamento widget");
+                    return res.text();
+                })
+                .then((html) => {
+                    const container = document.getElementById("orbit-template-container");
+                    if (container) container.innerHTML = html;
+                })
+                .catch((err) => console.error("Impossibile caricare l'ecosistema orbitale:", err));
+        });
+    </script>
+    <script src="https://rmstudio.app/cookie-banner.js" defer></script>
 </body>
 </html>
