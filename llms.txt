@@ -1,22 +1,28 @@
 # Dentis - AI Voice Receptionist for Dental Practices
 
-Dentis is an advanced, voice-first SaaS platform designed to automate reception and appointment scheduling for dental practices using ultra-realistic AI voice agents.
+Dentis è una piattaforma SaaS avanzata, focalizzata sul canale vocale (Voice-First), progettata da **RM Studio** per automatizzare la ricezione telefonica e la gestione degli appuntamenti per studi dentistici e cliniche odontoiatriche tramite agenti vocali AI iper-realistici.
 
-## Core Information
-- **Landing Page:** https://dentis.rmstudio.app
-- **Developer/Founder:** Riccardo Modena (RM Studio)
-- **Target Audience:** B2B, Dental Clinics, Dentists, Medical practices.
-- **Core Agent Name:** Serena (warm, empathetic, native Italian voice).
+## Informazioni Generali
+- **Landing Page ufficiale:** https://dentis.rmstudio.app/
+- **Pannello & API (Hetzner):** https://dentis-app.rmstudio.app/
+- **Founder & Developer:** Riccardo Modena (RM Studio)
+- **Target Audience:** B2B, Cliniche Odontoiatriche, Dentisti, Studi Medici.
+- **Nome Agente Master:** Serena (voce calda, empatica, fluente in dizione italiana).
 
-## Product Offerings & Pricing
-- **Free Trial:** 7-day cardless free trial (full features).
-- **Serena Starter (€79/mo):** Active strictly out-of-hours (nights, weekends). Email appt notifications.
-- **Serena PRO (€149/mo):** 24/7 coverage, emergency triage, Google Calendar sync, automated WhatsApp & Email reminders.
-- **Clinic Elite (€299/mo):** Multi-location, multi-calendar support, dedicated SLA.
+## Architettura e Integrazione Tecnica
+- **Dual-Prompt Dynamic Overrides:** Gestito tramite un unico agente Master in Vapi che inoltra le chiamate a `/api/vapi-assistant-override` su Hetzner. Il server unisce dinamicamente il *Prompt Comportamentale Standard* (fisso nel codice per recitazione e dizione) con le *Regole dello Studio* estratte da Supabase, restituendo la configurazione finale in tempo reale.
+- **Sandbox Shared Test Line (Caller ID Routing):** Consente al medico di testare Serena in 2 minuti. I trial usano un unico numero master geografico italiano (`+3904251675950`). Il server Hetzner analizza il numero chiamante (Caller ID) e, se corrisponde alla colonna `telefono_test` dello studio registrato, inietta all'istante le regole e la knowledge-base di quel medico.
+- **Sincronizzazione Google Calendar Senza Conflitti:** Utilizzo dei tool nativi di Vapi per la gestione delle fasce orarie. Evita integrazioni complesse con i gestionali chiusi dei dentisti (XDent, OrisDent, ecc.) delegando alla segretaria il drag-and-drop degli eventi.
+- **Ingestione Conoscenza via Web Scraping:** n8n legge il sito web della clinica, ripulisce l'HTML (Ottimizzatore Testo), estrae trattamenti e prezzi tramite GPT-4o Mini e aggiorna automaticamente la colonna `prompt_sistema` in Supabase.
+- **Gateway WhatsApp OpenWA (Oracle):** Spedisce promemoria WhatsApp automatici ai pazienti per gli appuntamenti del giorno successivo tramite l'istanza a costo zero su Oracle Cloud, dotata di 2GB di Swap per sostenere la stabilità di Chromium.
 
-## System Architecture
-- **Voice Engine:** Vapi (ElevenLabs text-to-speech + Deepgram transcription).
-- **Database:** Supabase (Auth, Postgres).
-- **Automations:** n8n (Stripe integration, automated reminders, post-call sync).
-- **WhatsApp Gateway:** OpenWA (Self-hosted on Oracle Cloud VPS).
-- **Calendar Integration:** Native Google Calendar tools. No dental legacy software integration required (drag-and-drop buffer model).
+## Piani Tariffari e Modelli di Pricing
+- **Prova Gratuita (Trial):** 7 giorni di prova gratuita completi senza inserimento della carta di credito (n8n genera la password e inserisce il record con scadenza automatica a 7 giorni). All'ottavo giorno, il server Hetzner rileva la scadenza e risponde a Vapi bloccando Serena con un messaggio di cortesia.
+- **Serena Starter (€ 79,00 / mese):** Risposta attiva fuori orario (notti, weekend e pause pranzo), notifiche appuntamenti inviate via Email.
+- **Serena PRO (€ 149,00 / mese - Consigliato):** Risposta H24 (subentro automatico su occupato), triage urgenze, sincronizzazione Google Calendar e promemoria automatici via WhatsApp ed Email.
+- **Clinic Elite (€ 299,00 / mese):** Gestione multi-sede e multi-calendario per più medici dello stesso studio.
+
+## Risorse per Modelli Linguistici e Crawler
+- **Full Markdown Mirror:** https://dentis.rmstudio.app/mirror.md
+- **Termini e Condizioni Centralizzati:** https://rmstudio.app/termini.html
+- **Informativa Privacy:** https://dentis.rmstudio.app/privacy
