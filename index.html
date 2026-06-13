@@ -848,7 +848,7 @@
     <script>
         // Carica dinamicamente l'ecosistema orbitale condiviso (URL canonico finale di RM Studio)
         document.addEventListener('DOMContentLoaded', () => {
-            fetch("https://www.rmstudio.app/orbit-template?v=1")
+            fetch("https://www.rmstudio.app/public/orbit-template?v=1")
                 .then((res) => {
                     if (!res.ok) throw new Error("Errore caricamento widget");
                     return res.text();
