@@ -116,8 +116,8 @@
     
     <!-- Metadati SEO & Favicon -->
     <meta name="description" content="Ogni paziente trova sempre risposta. Serena gestisce le telefonate dello studio dentistico H24, fissa gli appuntamenti su Google Calendar e invia promemoria automatici via WhatsApp ed Email.">
-    <link rel="icon" href="public/logo.ico?v=2" type="image/x-icon">
-    <link rel="apple-touch-icon" href="public/logo.png?v=2">
+    <link rel="icon" href="https://rmstudio.app/public/logo.ico?v=2" type="image/x-icon">
+    <link rel="apple-touch-icon" href="https://rmstudio.app/public/loghi/logo_dentis.png">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -353,7 +353,7 @@
     <!-- LAYER BACKGROUND VIDEO FLUIDO -->
     <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
         <video autoplay muted loop playsinline preload="auto" class="w-full h-full object-cover opacity-20">
-            <source src="/background.mp4" type="video/mp4">
+            <source src="https://rmstudio.app/public/video/background.mp4" type="video/mp4">
         </video>
         <div class="absolute inset-0 bg-gradient-to-b from-darkBg/95 via-darkBg/60 to-darkBg"></div>
     </div>
@@ -362,7 +362,7 @@
     <header class="fixed top-0 left-0 w-full p-4 md:p-6 z-50 backdrop-blur-md bg-black/25 border-b border-white/5">
         <div class="max-w-6xl mx-auto flex justify-between items-center">
             <a href="#" class="logo flex items-center gap-3 text-2xl font-bold tracking-wide text-white">
-                <img src="public/logo.png" alt="Dentis Logo" class="h-10 w-auto object-contain">
+                <img src="https://rmstudio.app/public/loghi/logo_dentis.png" alt="Dentis Logo" class="h-10 w-auto object-contain">
                 <span>Dentis</span>
             </a>
             <nav class="hidden md:flex items-center gap-8 text-xs font-bold uppercase tracking-widest text-zinc-400">
@@ -509,15 +509,11 @@
             <div class="max-w-3xl mx-auto glass-panel p-8 md:p-12 rounded-[2.5rem] relative overflow-hidden card-glow">
                 <div class="absolute top-0 right-0 w-64 h-64 bg-brandCyan/10 blur-3xl rounded-full pointer-events-none"></div>
                 <h2 class="text-3xl font-bold mb-2 text-center tracking-tight">Attiva 7 Giorni di Prova Gratis</h2>
-                <div class="absolute top-0 right-0 w-64 h-64 bg-brandCyan/10 blur-3xl rounded-full pointer-events-none"></div>
-                <h2 class="text-3xl font-bold mb-2 text-center tracking-tight">Attiva 7 Giorni di Prova Gratis</h2>
                 <p class="text-zinc-400 mb-8 text-center text-sm leading-relaxed max-w-xl mx-auto">
                     <b>Come funziona la prova gratuita?</b><br>
                     Crea l&apos;account istantaneamente senza inserire la carta. Riceverai subito un&apos;email con il tuo ID Studio e il nostro <b>Numero di Test Nazionale (+39 02 8295 1234)</b>.<br>
                     Chiamalo dal tuo cellulare registrato per parlare subito con Serena personalizzata per la tua clinica.
                 </p>
-                
-                <form id="form-registrazione" class="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
                 
                 <form id="form-registrazione" class="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
                     <div>
@@ -763,7 +759,7 @@
                     </div>
                     <div class="glass-panel p-6 rounded-2xl">
                         <h3 class="font-bold text-lg text-brandCyan mb-2">Come si gestiscono i casi in cui Serena non conosce una risposta?</h3>
-                        <p class="text-zinc-300 text-sm leading-relaxed">Serena è addestrata esclusivamente sulle regole del tuo studio. Se un paziente effettua una richiesta medica complessa o non prevista dalle linee guida configurate, Serena risponderà cortesemente prendendo nota della richiesta ed inviando una notifica immediata alla segreteria fisica per essere ricontattato.</p>
+                        <p class="text-zinc-300 text-sm leading-relaxed">Serena è addestrata esclusivamente sulle regole del tuo studio. Se un paziente effettua una richiesta medica complessa o non prevista dalle linee guida configurate, Serena risponderà cortesemente prendendo nota della richiesta ed inviando una notifica immediata alla segretaria fisica per essere ricontattato.</p>
                     </div>
                 </div>
             </div>
@@ -812,7 +808,7 @@
             <!-- Colonna 1: Logo e Copyright -->
             <div class="max-w-xs text-center md:text-left">
                 <div class="flex items-center justify-center md:justify-start gap-3 text-white font-black text-2xl mb-4">
-                    <img src="public/logo.png" alt="Dentis Logo" class="h-10 w-auto object-contain">
+                    <img src="https://rmstudio.app/public/loghi/logo_dentis.png" alt="Dentis Logo" class="h-10 w-auto object-contain">
                     <span>Dentis</span>
                 </div>
                 <p class="text-zinc-500 text-sm leading-relaxed">Tecnologia proprietaria RM Studio. Semplifichiamo l&apos;automazione medica.</p>
@@ -848,7 +844,7 @@
     <script>
         // Carica dinamicamente l'ecosistema orbitale condiviso (URL canonico finale di RM Studio)
         document.addEventListener('DOMContentLoaded', () => {
-            fetch("https://www.rmstudio.app/public/orbit-template?v=1")
+            fetch("https://rmstudio.app/public/orbit-template.html?v=1")
                 .then((res) => {
                     if (!res.ok) throw new Error("Errore caricamento widget");
                     return res.text();
