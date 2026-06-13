@@ -155,7 +155,7 @@
         }
 
         .glass-panel {
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(5px);
             background: rgba(12, 12, 14, 0.92);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
@@ -352,7 +352,7 @@
 
     <!-- LAYER BACKGROUND VIDEO FLUIDO -->
     <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-        <video autoplay muted loop playsinline preload="auto" class="w-full h-full object-cover opacity-20">
+        <video autoplay muted loop playsinline preload="metadata" class="w-full h-full object-cover opacity-20">
             <source src="/background.mp4" type="video/mp4">
         </video>
         <div class="absolute inset-0 bg-gradient-to-b from-darkBg/95 via-darkBg/60 to-darkBg"></div>
