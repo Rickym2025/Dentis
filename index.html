@@ -131,10 +131,10 @@
             theme: {
                 extend: {
                     colors: {
-                        darkBg: '#030305',
-                        brandCyan: '#06b6d4',
-                        brandBlue: '#007bff',
-                        panelBg: 'rgba(12, 12, 14, 0.95)'
+                        darkBg: '#060b19', /* Sfondo blu notte profondo, coordinato con lo sfondo del logo */
+                        brandCyan: '#00e5f2', /* Ciano elettrico / turchese brillante, coordinato con la spirale del logo */
+                        brandBlue: '#1e3a8a',
+                        panelBg: 'rgba(6, 11, 25, 0.96)' /* Vetratura scura coordinata con sfumatura bluastra del logo */
                     },
                     fontFamily: {
                         sans: ['"DM Sans"', 'sans-serif'],
@@ -148,26 +148,29 @@
     <style>
         *, *::before, *::after { box-sizing: border-box; }
         body {
-            background-color: #030305;
+            background-color: #060b19;
             color: #f1f5f9;
             font-size: 18px;
             line-height: 1.6;
         }
 
         .glass-panel {
-            /* Rimossa la sfocatura per eliminare definitivamente il rallentamento di rendering causato dal video sottostante */
-            background: rgba(10, 10, 12, 0.97); /* Colore scuro ad alta opacità, elegante e ad alto contrasto */
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(6, 11, 25, 0.95);
+            border: 1px solid rgba(0, 229, 242, 0.08); /* Bordo con leggera luminescenza ciano del logo */
         }
 
-        /* Codice video pulito, lasciando che il browser gestisca la decodifica hardware nativamente */
+        /* Ottimizzazione CSS per forzare la GPU ad accelerare il video in background, eliminando gli scatti */
         video {
             pointer-events: none;
+            transform: translate3d(0, 0, 0);
+            backface-visibility: hidden;
+            will-change: transform;
+            perspective: 1000px;
         }
 
         /* Effetto bagliore (Glow) sul testo dell'Hero */
         .glow-text {
-            text-shadow: 0 0 25px rgba(6, 182, 212, 0.55), 0 0 5px rgba(6, 182, 212, 0.3);
+            text-shadow: 0 0 25px rgba(0, 229, 242, 0.55), 0 0 5px rgba(0, 229, 242, 0.3);
         }
 
         /* Visual Hook: Pulsante principale con animazione pulsante */
@@ -175,25 +178,25 @@
             animation: pulse-glow-cyan 2.5s infinite ease-in-out;
         }
         @keyframes pulse-glow-cyan {
-            0%, 100% { box-shadow: 0 0 15px rgba(6, 182, 212, 0.3); }
-            50%      { box-shadow: 0 0 35px rgba(6, 182, 212, 0.7); }
+            0%, 100% { box-shadow: 0 0 15px rgba(0, 229, 242, 0.3); }
+            50%      { box-shadow: 0 0 35px rgba(0, 229, 242, 0.7); }
         }
 
         /* Glow dinamico per le schede */
         .card-glow {
-            box-shadow: 0 0 15px rgba(6, 182, 212, 0.04);
+            box-shadow: 0 0 15px rgba(0, 229, 242, 0.04);
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .card-glow:hover {
-            box-shadow: 0 0 35px rgba(6, 182, 212, 0.22), inset 0 0 12px rgba(6, 182, 212, 0.05);
-            border-color: rgba(6, 182, 212, 0.45);
+            box-shadow: 0 0 35px rgba(0, 229, 242, 0.22), inset 0 0 12px rgba(0, 229, 242, 0.05);
+            border-color: rgba(0, 229, 242, 0.45);
             transform: translateY(-6px);
         }
 
         /* Decoy Card: Bagliore cangiante per la scelta d'oro */
         @keyframes decoy-glow {
-            0%, 100% { border-color: rgba(6, 182, 212, 0.3); box-shadow: 0 0 15px rgba(6, 182, 212, 0.15); }
-            50%      { border-color: rgba(6, 182, 212, 0.85); box-shadow: 0 0 35px rgba(6, 182, 212, 0.45); }
+            0%, 100% { border-color: rgba(0, 229, 242, 0.3); box-shadow: 0 0 15px rgba(0, 229, 242, 0.15); }
+            50%      { border-color: rgba(0, 229, 242, 0.85); box-shadow: 0 0 35px rgba(0, 229, 242, 0.45); }
         }
         .decoy-highlight-card {
             animation: decoy-glow 3.5s infinite ease-in-out;
@@ -232,7 +235,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 25px rgba(6, 182, 212, 0.15);
+            box-shadow: 0 0 25px rgba(0, 229, 242, 0.15);
             animation: orbit-rotation 40s linear infinite;
         }
         .orbit-area {
@@ -273,8 +276,8 @@
             text-decoration: none;
         }
         .orbit-link:hover {
-            border-color: #06b6d4;
-            box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+            border-color: #00e5f2;
+            box-shadow: 0 0 15px rgba(0, 229, 242, 0.4);
         }
         .orbit-img {
             width: 100%;
@@ -292,7 +295,7 @@
             width: 144px;
             height: 144px;
             border-radius: 50%;
-            border: 4px solid #06b6d4;
+            border: 4px solid #00e5f2;
             padding: 4px;
             background: #000;
             box-shadow: 0 10px 40px rgba(0,0,0,0.8);
@@ -311,8 +314,8 @@
             left: 50%;
             transform: translateX(-50%);
             width: 200px;
-            background: #0a0a0c;
-            border: 1px solid rgba(255,255,255,0.08);
+            background: #060b19;
+            border: 1px solid rgba(0, 229, 242, 0.15);
             color: #94a3b8;
             font-size: 13px;
             border-radius: 8px;
@@ -337,7 +340,7 @@
             position: absolute;
             width: 288px;
             height: 288px;
-            background-color: rgba(6, 182, 212, 0.05);
+            background-color: rgba(0, 229, 242, 0.05);
             filter: blur(48px);
             border-radius: 9999px;
             will-change: transform, opacity;
@@ -347,46 +350,31 @@
 </head>
 <body class="antialiased flex flex-col min-h-screen">
 
-    <!-- LAYER BACKGROUND VIDEO FLUIDO -->
+    <!-- LAYER BACKGROUND VIDEO FLUIDO CON OTTIMIZZAZIONE GPU E AUTOPLAY SOLIDO -->
     <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-        <video id="bg-video" autoplay muted loop playsinline preload="auto" class="w-full h-full object-cover opacity-20">
+        <video id="bg-video" autoplay muted loop playsinline preload="auto" class="w-full h-full object-cover opacity-15">
             <source src="/public/background.mp4" type="video/mp4">
         </video>
         <div class="absolute inset-0 bg-gradient-to-b from-darkBg/95 via-darkBg/60 to-darkBg"></div>
     </div>
 
+    <!-- Script di attivazione pulito: rimosso l'ascolto forzato su 'pause' per evitare sfarfallii e micro-scatti -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const video = document.getElementById('bg-video');
             if (video) {
-                // Funzione per avviare il video
-                const playVideo = () => {
-                    video.play().catch(err => console.log("Riproduzione bloccata dalle policy"));
-                };
+                // Tenta l'avvio immediato nativo (supportato al 100% poiché il video è muto)
+                video.play().catch(err => console.log("Inizializzazione riproduzione assistita..."));
 
-                // Tenta l'avvio subito
-                playVideo();
-
-                // Watchdog: se il browser forza la pausa del video inaspettatamente, lo riavvia
-                video.addEventListener('pause', () => {
-                    if (!video.ended) {
-                        setTimeout(() => {
-                            playVideo();
-                        }, 100); // Piccolo ritardo per aggirare il blocco del browser
-                    }
-                });
-
-                // Attivazione immediata al primo click/scroll/tocco nel caso di blocco totale iniziale
+                // Metodo alternativo ad attivazione utente (fallback solo in caso di blocco rigido del browser)
                 const forcePlay = () => {
                     video.play().then(() => {
                         document.removeEventListener('click', forcePlay);
                         document.removeEventListener('touchstart', forcePlay);
-                        document.removeEventListener('scroll', forcePlay);
                     });
                 };
                 document.addEventListener('click', forcePlay);
                 document.addEventListener('touchstart', forcePlay);
-                document.addEventListener('scroll', forcePlay);
             }
         });
     </script>
@@ -435,7 +423,7 @@
                 </p>
 
                 <div class="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-4 max-w-md mx-auto">
-                    <a href="#registrazione-sezione" class="btn-pulse-glow bg-brandCyan hover:bg-cyan-500 text-black font-black text-lg px-10 py-5 rounded-xl transition-all transform hover:scale-[1.02] shadow-[0_0_20px_rgba(6,182,212,0.3)] text-center">
+                    <a href="#registrazione-sezione" class="btn-pulse-glow bg-brandCyan hover:bg-cyan-300 text-black font-black text-lg px-10 py-5 rounded-xl transition-all transform hover:scale-[1.02] shadow-[0_0_20px_rgba(0,229,242,0.3)] text-center">
                         Attiva 7 Giorni Gratis 🎁
                     </a>
                     <a href="/config" class="bg-zinc-900/60 hover:bg-zinc-900 border border-zinc-800 text-zinc-300 font-bold text-lg px-8 py-5 rounded-xl transition-all text-center">
@@ -544,7 +532,7 @@
                 <h2 class="text-3xl font-bold mb-2 text-center tracking-tight">Attiva 7 Giorni di Prova Gratis</h2>
                 <p class="text-zinc-400 mb-8 text-center text-sm leading-relaxed max-w-xl mx-auto">
                     <b>Come funziona la prova gratuita?</b><br>
-                    Crea l&apos;account istantaneamente senza inserire la carta. Riceverai subito un&apos;email con il tuo ID Studio e il nostro <b>Numero di Test Nazionale (+39 02 8295 1234)</b>.<br>
+                    Crea l&apos;account istantaneamente senza inserire la carta. Riceverai subito un&apos;email con il tuo ID Studio e il nostro <b>Numero di Test Nazionale (+39 0425 167 5950)</b>.<br>
                     Chiamalo dal tuo cellulare registrato per parlare subito con Serena personalizzata per la tua clinica.
                 </p>
                 
@@ -559,12 +547,12 @@
                     </div>
                     <div>
                         <label class="block text-sm text-zinc-400 mb-2 uppercase tracking-widest font-bold text-xs">Telefono dello Studio</label>
-                        <input type="tel" id="reg-tel" class="w-full bg-black/50 border border-white/10 text-white rounded-xl px-4 py-3 outline-none focus:border-brandCyan transition-colors text-sm" placeholder="es. +39 02 1234567">
+                        <input type="tel" id="reg-tel" class="w-full bg-black/50 border border-white/10 text-white rounded-xl px-4 py-3 outline-none focus:border-brandCyan transition-colors text-sm" placeholder="es. +39 0425 167 5950">
                     </div>
                     <div>
                         <label class="block text-sm text-zinc-400 mb-2 uppercase tracking-widest font-bold text-xs">Piano desiderato dopo la prova *</label>
                         <select id="reg-piano" required class="w-full bg-black/50 border border-white/10 text-white rounded-xl px-4 py-3 outline-none focus:border-brandCyan transition-colors appearance-none text-sm">
-                            <option value="Prova">Trial Gratuito (7 Giorni - 15 Minuti inclusi)</option>
+                            <option value="Prova">Trial Gratuito (7 Giorni)</option>
                             <option value="Base">Serena Starter (Fuori Orario - 79€/mese)</option>
                             <option value="Pro">Serena PRO (H24 + WhatsApp Reminders - 149€/mese)</option>
                             <option value="Max">Clinic Elite (Multi-sede + Supporto - 299€/mese)</option>
@@ -649,7 +637,6 @@
                             
                             <ul class="text-xs text-zinc-300 space-y-3 mb-8">
                                 <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> 7 Giorni di prova completi</li>
-                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> 15 Minuti AI di conversazione inclusi</li>
                                 <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Integrazione Agenda e Calendario</li>
                                 <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Pannello controllo e setup guidato</li>
                             </ul>
