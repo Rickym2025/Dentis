@@ -154,17 +154,23 @@
             line-height: 1.6;
         }
 
+        /* Ottimizzazione impatto calcolo GPU per eliminare gli scatti */
         .glass-panel {
-            backdrop-filter: blur(5px);
-            background: rgba(12, 12, 14, 0.92);
+            backdrop-filter: blur(4px); /* Ridotto da 10px a 4px per alleggerire il carico di ricalcolo dei pixel */
+            background: rgba(12, 12, 14, 0.95); /* Leggermente più opaco per compensare e mantenere l'effetto premium */
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        /* Video GPU acceleration hack */
-        video {
-            transform: translate3d(0,0,0);
+        /* Forza l'isolamento del video in un livello grafico dedicato (Hardware Accelerated Composite Layer) */
+        .style-gpu-layer {
+            transform: translate3d(0, 0, 0);
             backface-visibility: hidden;
             will-change: transform;
+        }
+
+        .style-gpu-video {
+            transform: translate3d(0, 0, 0);
+            backface-visibility: hidden;
             perspective: 1000;
         }
 
@@ -351,8 +357,8 @@
 <body class="antialiased flex flex-col min-h-screen">
 
     <!-- LAYER BACKGROUND VIDEO FLUIDO -->
-    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-        <video autoplay muted loop playsinline preload="metadata" class="w-full h-full object-cover opacity-20">
+    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none style-gpu-layer">
+        <video autoplay muted loop playsinline preload="metadata" class="w-full h-full object-cover opacity-20 style-gpu-video">
             <source src="/public/background.mp4" type="video/mp4">
         </video>
         <div class="absolute inset-0 bg-gradient-to-b from-darkBg/95 via-darkBg/60 to-darkBg"></div>
