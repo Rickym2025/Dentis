@@ -154,24 +154,15 @@
             line-height: 1.6;
         }
 
-        /* Ottimizzazione impatto calcolo GPU per eliminare gli scatti */
         .glass-panel {
-            backdrop-filter: blur(4px); /* Ridotto da 10px a 4px per alleggerire il carico di ricalcolo dei pixel */
-            background: rgba(12, 12, 14, 0.95); /* Leggermente più opaco per compensare e mantenere l'effetto premium */
+            /* Rimossa la sfocatura per eliminare definitivamente il rallentamento di rendering causato dal video sottostante */
+            background: rgba(10, 10, 12, 0.97); /* Colore scuro ad alta opacità, elegante e ad alto contrasto */
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        /* Forza l'isolamento del video in un livello grafico dedicato (Hardware Accelerated Composite Layer) */
-        .style-gpu-layer {
-            transform: translate3d(0, 0, 0);
-            backface-visibility: hidden;
-            will-change: transform;
-        }
-
-        .style-gpu-video {
-            transform: translate3d(0, 0, 0);
-            backface-visibility: hidden;
-            perspective: 1000;
+        /* Codice video pulito, lasciando che il browser gestisca la decodifica hardware nativamente */
+        video {
+            pointer-events: none;
         }
 
         /* Effetto bagliore (Glow) sul testo dell'Hero */
