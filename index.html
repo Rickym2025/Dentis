@@ -356,25 +356,37 @@
     </div>
 
     <script>
-        // Script per forzare l'avvio del video superando i blocchi Autoplay del browser
         document.addEventListener('DOMContentLoaded', () => {
             const video = document.getElementById('bg-video');
             if (video) {
-                // Tenta la riproduzione immediata
-                video.play().catch(() => {
-                    // Se il browser blocca l'autoplay, si attiva al primo tocco, clic o scroll
-                    const forcePlay = () => {
-                        video.play().then(() => {
-                            // Una volta avviato, rimuove i listener per non consumare memoria
-                            document.removeEventListener('click', forcePlay);
-                            document.removeEventListener('touchstart', forcePlay);
-                            document.removeEventListener('scroll', forcePlay);
-                        }).catch(err => console.log("Riproduzione in attesa di interazione"));
-                    };
-                    document.addEventListener('click', forcePlay);
-                    document.addEventListener('touchstart', forcePlay);
-                    document.addEventListener('scroll', forcePlay);
+                // Funzione per avviare il video
+                const playVideo = () => {
+                    video.play().catch(err => console.log("Riproduzione bloccata dalle policy"));
+                };
+
+                // Tenta l'avvio subito
+                playVideo();
+
+                // Watchdog: se il browser forza la pausa del video inaspettatamente, lo riavvia
+                video.addEventListener('pause', () => {
+                    if (!video.ended) {
+                        setTimeout(() => {
+                            playVideo();
+                        }, 100); // Piccolo ritardo per aggirare il blocco del browser
+                    }
                 });
+
+                // Attivazione immediata al primo click/scroll/tocco nel caso di blocco totale iniziale
+                const forcePlay = () => {
+                    video.play().then(() => {
+                        document.removeEventListener('click', forcePlay);
+                        document.removeEventListener('touchstart', forcePlay);
+                        document.removeEventListener('scroll', forcePlay);
+                    });
+                };
+                document.addEventListener('click', forcePlay);
+                document.addEventListener('touchstart', forcePlay);
+                document.addEventListener('scroll', forcePlay);
             }
         });
     </script>
