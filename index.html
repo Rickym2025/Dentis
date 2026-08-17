@@ -131,10 +131,10 @@
             theme: {
                 extend: {
                     colors: {
-                        darkBg: '#060b19', /* Sfondo blu notte profondo, coordinato con lo sfondo del logo */
-                        brandCyan: '#00e5f2', /* Ciano elettrico / turchese brillante, coordinato con la spirale del logo */
+                        darkBg: '#060b19',
+                        brandCyan: '#00e5f2',
                         brandBlue: '#1e3a8a',
-                        panelBg: 'rgba(6, 11, 25, 0.96)' /* Vetratura scura coordinata con sfumatura bluastra del logo */
+                        panelBg: 'rgba(6, 11, 25, 0.96)'
                     },
                     fontFamily: {
                         sans: ['"DM Sans"', 'sans-serif'],
@@ -156,10 +156,9 @@
 
         .glass-panel {
             background: rgba(6, 11, 25, 0.95);
-            border: 1px solid rgba(0, 229, 242, 0.08); /* Bordo con leggera luminescenza ciano del logo */
+            border: 1px solid rgba(0, 229, 242, 0.08);
         }
 
-        /* Ottimizzazione CSS per forzare la GPU ad accelerare il video in background, eliminando gli scatti */
         video {
             pointer-events: none;
             transform: translate3d(0, 0, 0);
@@ -168,12 +167,10 @@
             perspective: 1000px;
         }
 
-        /* Effetto bagliore (Glow) sul testo dell'Hero */
         .glow-text {
             text-shadow: 0 0 25px rgba(0, 229, 242, 0.55), 0 0 5px rgba(0, 229, 242, 0.3);
         }
 
-        /* Visual Hook: Pulsante principale con animazione pulsante */
         .btn-pulse-glow { 
             animation: pulse-glow-cyan 2.5s infinite ease-in-out;
         }
@@ -182,7 +179,6 @@
             50%      { box-shadow: 0 0 35px rgba(0, 229, 242, 0.7); }
         }
 
-        /* Glow dinamico per le schede */
         .card-glow {
             box-shadow: 0 0 15px rgba(0, 229, 242, 0.04);
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -193,7 +189,6 @@
             transform: translateY(-6px);
         }
 
-        /* Decoy Card: Bagliore cangiante per la scelta d'oro */
         @keyframes decoy-glow {
             0%, 100% { border-color: rgba(0, 229, 242, 0.3); box-shadow: 0 0 15px rgba(0, 229, 242, 0.15); }
             50%      { border-color: rgba(0, 229, 242, 0.85); box-shadow: 0 0 35px rgba(0, 229, 242, 0.45); }
@@ -203,7 +198,6 @@
             border-width: 2px;
         }
 
-        /* Scarcity Alert Animation */
         @keyframes pulse-red {
             0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
             70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
@@ -213,7 +207,6 @@
             animation: pulse-red 1.5s infinite;
         }
 
-        /* ─── STILI WIDGET ORBITALE SINCRO (RM STUDIO) ─── */
         @keyframes orbit-rotation {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
@@ -350,7 +343,7 @@
 </head>
 <body class="antialiased flex flex-col min-h-screen">
 
-    <!-- LAYER BACKGROUND VIDEO FLUIDO CON OTTIMIZZAZIONE GPU E AUTOPLAY SOLIDO -->
+    <!-- LAYER BACKGROUND VIDEO -->
     <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
         <video id="bg-video" autoplay muted loop playsinline preload="auto" class="w-full h-full object-cover opacity-15">
             <source src="/public/background.mp4" type="video/mp4">
@@ -358,15 +351,11 @@
         <div class="absolute inset-0 bg-gradient-to-b from-darkBg/95 via-darkBg/60 to-darkBg"></div>
     </div>
 
-    <!-- Script di attivazione pulito: rimosso l'ascolto forzato su 'pause' per evitare sfarfallii e micro-scatti -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const video = document.getElementById('bg-video');
             if (video) {
-                // Tenta l'avvio immediato nativo (supportato al 100% poiché il video è muto)
                 video.play().catch(err => console.log("Inizializzazione riproduzione assistita..."));
-
-                // Metodo alternativo ad attivazione utente (fallback solo in caso di blocco rigido del browser)
                 const forcePlay = () => {
                     video.play().then(() => {
                         document.removeEventListener('click', forcePlay);
@@ -406,7 +395,6 @@
         <section class="min-h-screen flex flex-col items-center justify-center px-6 pt-32 pb-20 text-center">
             <div class="max-w-4xl mx-auto">
                 
-                <!-- Scarsità cognitiva attiva -->
                 <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-bold uppercase tracking-widest mb-6">
                     <span class="scarcity-dot w-2 h-2 rounded-full bg-red-500"></span>
                     Solo 3 studi accettati per l&apos;onboarding questa settimana
@@ -464,7 +452,7 @@
             </div>
         </section>
 
-        <!-- VISUAL WORKFLOW (PRENOTAZIONI & REMINDERS) -->
+        <!-- VISUAL WORKFLOW -->
         <section id="funzionamento" class="py-24 px-6 border-t border-white/5 bg-zinc-950/40">
             <div class="max-w-5xl mx-auto">
                 <div class="text-center mb-16">
@@ -500,7 +488,6 @@
                         </div>
                     </div>
 
-                    <!-- Visual Mockup di WhatsApp / Email Reminder -->
                     <div class="card-glow p-8 glass-panel rounded-[2.5rem] border border-white/10 shadow-2xl relative">
                         <div class="absolute top-0 right-0 w-32 h-32 bg-brandCyan/10 blur-2xl rounded-full"></div>
                         <div class="flex items-center gap-3 border-b border-white/15 pb-4 mb-6">
@@ -526,7 +513,7 @@
             </div>
         </section>
 
-        <!-- SEZIONE REGISTRAZIONE PROVA GRATUITA (Modello Concierge24) -->
+        <!-- SEZIONE REGISTRAZIONE PROVA GRATUITA -->
         <section id="registrazione-sezione" class="py-24 px-6 border-t border-white/5 relative">
             <div class="max-w-3xl mx-auto glass-panel p-8 md:p-12 rounded-[2.5rem] relative overflow-hidden card-glow">
                 <div class="absolute top-0 right-0 w-64 h-64 bg-brandCyan/10 blur-3xl rounded-full pointer-events-none"></div>
@@ -554,9 +541,9 @@
                         <label class="block text-sm text-zinc-400 mb-2 uppercase tracking-widest font-bold text-xs">Piano desiderato dopo la prova *</label>
                         <select id="reg-piano" required class="w-full bg-black/50 border border-white/10 text-white rounded-xl px-4 py-3 outline-none focus:border-brandCyan transition-colors appearance-none text-sm">
                             <option value="Prova">Trial Gratuito (7 Giorni)</option>
-                            <option value="Base">Serena Starter (Fuori Orario - 79€/mese)</option>
-                            <option value="Pro">Serena PRO (H24 + WhatsApp Reminders - 149€/mese)</option>
-                            <option value="Max">Clinic Elite (Multi-sede + Supporto - 299€/mese)</option>
+                            <option value="starter">Serena Starter (Fuori Orario - 79€/mese)</option>
+                            <option value="pro">Serena PRO (H24 + WhatsApp Reminders - 149€/mese)</option>
+                            <option value="elite">Clinic Elite (Multi-sede + Supporto - 299€/mese)</option>
                         </select>
                     </div>
                     <div>
@@ -572,7 +559,7 @@
             </div>
         </section>
 
-        <!-- SCRIPT PER INVIARE I DATI DI REGISTRAZIONE -->
+        <!-- SCRIPT PER REGISTRAZIONE E STRIPE ON-THE-FLY -->
         <script>
         document.addEventListener('DOMContentLoaded', () => {
             const form = document.getElementById('form-registrazione');
@@ -585,27 +572,39 @@
                     btn.disabled = true;
                     btn.textContent = 'Creazione account in corso... ⏳';
                     
+                    const nome = document.getElementById('reg-nome').value;
+                    const email = document.getElementById('reg-email').value;
+                    const tel = document.getElementById('reg-tel').value;
+                    const piano = document.getElementById('reg-piano').value;
+                    const sito = document.getElementById('reg-sito').value;
+
                     const payload = {
-                        "Nome Agenzia": document.getElementById('reg-nome').value,
-                        "Email": document.getElementById('reg-email').value,
-                        "Telefono": document.getElementById('reg-tel').value,
-                        "Piano": document.getElementById('reg-piano').value,
-                        "Sito Web": document.getElementById('reg-sito').value,
-                        "Settore": "odontoiatria", // Corretto l'identificatore per la tabella unificata
+                        "Nome Agenzia": nome,
+                        "Email": email,
+                        "Telefono": tel,
+                        "Piano": piano,
+                        "Sito Web": sito,
+                        "Settore": "odontoiatria",
                         "Fonte": "Sito Web Dentis"
                     };
     
                     try {
-                        const response = await fetch('https://n8n.rmstudio.app/webhook/studio-registrazione', { // Webhook unificato
+                        const response = await fetch('https://n8n.rmstudio.app/webhook/studio-registrazione', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify(payload)
                         });
 
                         if(response.ok) {
-                            msg.textContent = 'Account creato con successo! Controlla la tua email per ricevere le credenziali d\'accesso.';
-                            msg.className = 'md:col-span-2 text-center text-sm font-bold text-green-400 block mt-4';
-                            form.reset();
+                            if (piano !== 'Prova' && typeof avviaCheckoutDentis === 'function') {
+                                msg.textContent = 'Account registrato! Apertura pagamento sicuro Stripe...';
+                                msg.className = 'md:col-span-2 text-center text-sm font-bold text-brandCyan block mt-4';
+                                await avviaCheckoutDentis(piano, email, nome);
+                            } else {
+                                msg.textContent = 'Account creato con successo! Controlla la tua email per ricevere le credenziali d\'accesso.';
+                                msg.className = 'md:col-span-2 text-center text-sm font-bold text-green-400 block mt-4';
+                                form.reset();
+                            }
                         } else {
                             throw new Error('Errore server');
                         }
@@ -621,7 +620,7 @@
         });
         </script>
 
-        <!-- NEUROMARKETING PRICING -->
+        <!-- PRICING SECTION -->
         <section id="prezzi" class="py-24 px-6 border-t border-white/5 bg-zinc-950/30">
             <div class="max-w-6xl mx-auto">
                 <div class="text-center mb-20">
@@ -673,9 +672,9 @@
                                 <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Configurazione rapida deviazione chiamate</li>
                             </ul>
                         </div>
-                        <a href="https://buy.stripe.com/28EaEYfrE2su1hw18Tdwc0l" class="block text-center w-full border border-white/20 text-white hover:bg-white/10 py-3 rounded-xl font-bold transition-all text-xs uppercase tracking-widest">
+                        <button onclick="avviaCheckoutDentis('starter')" class="block text-center w-full border border-white/20 text-white hover:bg-white/10 py-3 rounded-xl font-bold transition-all text-xs uppercase tracking-widest">
                             Attiva Starter
-                        </a>
+                        </button>
                     </div>
 
                     <!-- PACCHETTO 3: PRO (DECOY GOLDEN CHOICE) -->
@@ -701,9 +700,9 @@
                                 <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Report mensile delle chiamate e delle urgenze</li>
                             </ul>
                         </div>
-                        <a href="https://buy.stripe.com/8x2cN64N0c34aS65p9dwc0m" class="block text-center w-full bg-brandCyan text-black font-black py-4 rounded-xl text-xs uppercase tracking-widest hover:bg-cyan-400 transition-all shadow-lg shadow-cyan-500/25">
+                        <button onclick="avviaCheckoutDentis('pro')" class="block text-center w-full bg-brandCyan text-black font-black py-4 rounded-xl text-xs uppercase tracking-widest hover:bg-cyan-400 transition-all shadow-lg shadow-cyan-500/25">
                             SBLOCCA SERENA PRO 🔥
-                        </a>
+                        </button>
                     </div>
 
                     <!-- PACCHETTO 4: ELITE -->
@@ -726,9 +725,9 @@
                                 <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Integrazioni dedicate con sistemi gestionali</li>
                             </ul>
                         </div>
-                        <a href="https://buy.stripe.com/5kQcN6frE0km1hw7xhdwc0n" class="block text-center w-full border border-white/20 text-white hover:bg-white/10 py-3 rounded-xl font-bold transition-all text-xs uppercase tracking-widest">
+                        <button onclick="avviaCheckoutDentis('elite')" class="block text-center w-full border border-white/20 text-white hover:bg-white/10 py-3 rounded-xl font-bold transition-all text-xs uppercase tracking-widest">
                             Richiedi Elite
-                        </a>
+                        </button>
                     </div>
 
                 </div>
@@ -739,12 +738,8 @@
         <section id="ecosistema" class="border-t border-white/10 bg-[#020202]/80 backdrop-blur-xl py-24 px-6 relative">
             <div class="max-w-6xl mx-auto grid lg:grid-cols-12 gap-16 items-center">
                 
-                <!-- Area Orbitale RM Studio (Caricata asincronamente dall'esterno) -->
-                <div class="lg:col-span-5 flex justify-center items-center relative min-h-[440px] orbit-area" id="orbit-template-container">
-                    <!-- Verrà iniettato dinamicamente via JS fetch -->
-                </div>
+                <div class="lg:col-span-5 flex justify-center items-center relative min-h-[440px] orbit-area" id="orbit-template-container"></div>
 
-                <!-- Profilo Autorevolezza RM Studio -->
                 <div class="lg:col-span-7 space-y-6 text-left">
                     <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-brandCyan text-xs font-bold uppercase tracking-widest">
                         Esperienza & Autorevolezza
@@ -793,7 +788,7 @@
             </div>
         </section>
 
-        <!-- SEZIONE CONTATTI WEB3FORMS (Lead Generation) -->
+        <!-- SEZIONE CONTATTI WEB3FORMS -->
         <section id="contatti" class="py-24 px-6 border-t border-white/5 relative">
             <div class="max-w-4xl mx-auto glass-panel p-8 md:p-12 rounded-[2.5rem] relative overflow-hidden card-glow">
                 <div class="absolute top-0 right-0 w-64 h-64 bg-brandCyan/10 blur-3xl rounded-full pointer-events-none"></div>
@@ -833,7 +828,6 @@
     <footer class="border-t border-white/10 bg-black py-16 px-6 relative z-10">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12">
             
-            <!-- Colonna 1: Logo e Copyright -->
             <div class="max-w-xs text-center md:text-left">
                 <div class="flex items-center justify-center md:justify-start gap-3 text-white font-black text-2xl mb-4">
                     <img src="https://rmstudio.app/public/loghi/logo_dentis.png" alt="Dentis Logo" class="h-10 w-auto object-contain">
@@ -848,7 +842,6 @@
                 </p>
             </div>
 
-            <!-- Colonna 2: Social Hub (Centrata) -->
             <div class="flex flex-col items-center gap-4 text-center">
                 <h4 class="text-white font-bold text-sm uppercase tracking-widest">Social Hub</h4>
                 <div class="flex gap-3 justify-center">
@@ -859,7 +852,6 @@
                 </div>
             </div>
 
-            <!-- Colonna 3: Supporto (Centrata) -->
             <div class="flex flex-col items-center gap-4 text-center">
                 <h4 class="text-white font-bold text-sm uppercase tracking-widest">Supporto</h4>
                 <a href="#contatti" class="bg-white/8 hover:bg-white/15 border border-white/15 text-white px-6 py-2 rounded-full text-xs font-bold transition-all text-center">Parliamone e Contattaci</a>
@@ -884,6 +876,8 @@
                 .catch((err) => console.error("Impossibile caricare l'ecosistema orbitale:", err));
         });
     </script>
+    <!-- Script Motore di Pagamento Stripe On-The-Fly -->
+    <script src="pricing.js"></script>
     <script src="https://rmstudio.app/public/cookie-banner.js" defer></script>
 </body>
 </html>
