@@ -35,7 +35,7 @@
           },
           {
             "@type": "Offer",
-            "name": "Serena PRO (Scelta d&apos;Oro)",
+            "name": "Serena PRO (Scelta d'Oro)",
             "price": "149.00",
             "priceCurrency": "EUR",
             "description": "Risposta H24 (subentro su occupato), triage urgenze, sincronizzazione Google Calendar e promemoria automatici via WhatsApp.",
@@ -541,9 +541,9 @@
                         <label class="block text-sm text-zinc-400 mb-2 uppercase tracking-widest font-bold text-xs">Piano desiderato dopo la prova *</label>
                         <select id="reg-piano" required class="w-full bg-black/50 border border-white/10 text-white rounded-xl px-4 py-3 outline-none focus:border-brandCyan transition-colors appearance-none text-sm">
                             <option value="Prova">Trial Gratuito (7 Giorni)</option>
-                            <option value="starter">Serena Starter (Fuori Orario - 79€/mese)</option>
-                            <option value="pro">Serena PRO (H24 + WhatsApp Reminders - 149€/mese)</option>
-                            <option value="elite">Clinic Elite (Multi-sede + Supporto - 299€/mese)</option>
+                            <option value="starter" data-plan-option="starter">Serena Starter (Fuori Orario - 79€/mese)</option>
+                            <option value="pro" data-plan-option="pro">Serena PRO (H24 + WhatsApp Reminders - 149€/mese)</option>
+                            <option value="elite" data-plan-option="elite">Clinic Elite (Multi-sede + Supporto - 299€/mese)</option>
                         </select>
                     </div>
                     <div>
@@ -662,7 +662,7 @@
                             
                             <div class="mb-4 text-xs font-bold text-red-500/80 line-through">€ 149,00 / mese</div>
                             <div class="mb-7 flex items-end gap-1">
-                                <span class="text-4xl font-black text-white">€ 79</span>
+                                <span class="text-4xl font-black text-white" data-price-plan="starter">€ 79</span>
                                 <span class="text-zinc-500 text-xs pb-1">/ mese</span>
                             </div>
                             
@@ -672,7 +672,7 @@
                                 <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Configurazione rapida deviazione chiamate</li>
                             </ul>
                         </div>
-                        <button onclick="avviaCheckoutDentis('starter')" class="block text-center w-full border border-white/20 text-white hover:bg-white/10 py-3 rounded-xl font-bold transition-all text-xs uppercase tracking-widest">
+                        <button onclick="avviaCheckoutDentis('starter')" class="block text-center w-full border border-white/20 text-white hover:bg-white/10 py-3 rounded-xl font-bold transition-all text-xs uppercase tracking-widest cursor-pointer">
                             Attiva Starter
                         </button>
                     </div>
@@ -687,7 +687,7 @@
                             
                             <div class="mb-4 text-xs font-bold text-red-500/80 line-through">€ 299,00 / mese</div>
                             <div class="mb-7 flex items-end gap-1">
-                                <span class="text-4xl font-black text-white">€ 149</span>
+                                <span class="text-4xl font-black text-white" data-price-plan="pro">€ 149</span>
                                 <span class="text-zinc-500 text-xs pb-1">/ mese</span>
                             </div>
                             
@@ -700,7 +700,7 @@
                                 <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Report mensile delle chiamate e delle urgenze</li>
                             </ul>
                         </div>
-                        <button onclick="avviaCheckoutDentis('pro')" class="block text-center w-full bg-brandCyan text-black font-black py-4 rounded-xl text-xs uppercase tracking-widest hover:bg-cyan-400 transition-all shadow-lg shadow-cyan-500/25">
+                        <button onclick="avviaCheckoutDentis('pro')" class="block text-center w-full bg-brandCyan text-black font-black py-4 rounded-xl text-xs uppercase tracking-widest hover:bg-cyan-400 transition-all shadow-lg shadow-cyan-500/25 cursor-pointer">
                             SBLOCCA SERENA PRO 🔥
                         </button>
                     </div>
@@ -714,7 +714,7 @@
                             
                             <div class="mb-4 text-xs font-bold text-red-500/80 line-through">€ 599,00 / mese</div>
                             <div class="mb-7 flex items-end gap-1">
-                                <span class="text-4xl font-black text-white">€ 299</span>
+                                <span class="text-4xl font-black text-white" data-price-plan="elite">€ 299</span>
                                 <span class="text-zinc-500 text-xs pb-1">/ mese</span>
                             </div>
                             
@@ -725,7 +725,7 @@
                                 <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Integrazioni dedicate con sistemi gestionali</li>
                             </ul>
                         </div>
-                        <button onclick="avviaCheckoutDentis('elite')" class="block text-center w-full border border-white/20 text-white hover:bg-white/10 py-3 rounded-xl font-bold transition-all text-xs uppercase tracking-widest">
+                        <button onclick="avviaCheckoutDentis('elite')" class="block text-center w-full border border-white/20 text-white hover:bg-white/10 py-3 rounded-xl font-bold transition-all text-xs uppercase tracking-widest cursor-pointer">
                             Richiedi Elite
                         </button>
                     </div>
