@@ -1,3 +1,10 @@
 {
-  "cleanUrls": true
+  "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/config",
+      "destination": "https://dentis-app.rmstudio.app/config.html",
+      "permanent": false
+    }
+  ]
 }
