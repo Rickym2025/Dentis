@@ -75,7 +75,7 @@ async function avviaCheckoutDentis(planKey, email = '', nome = '') {
         agency_id: email ? `lead_${email}` : "checkout_diretto",
         project_id: email ? `lead_${email}` : "checkout_diretto",
         origin: window.location.origin,
-        success_url: `${window.location.origin}/config?success=true&plan=${planKey}`,
+        success_url: `https://dentis-app.rmstudio.app/config.html?success=true&plan=${planKey}`,
         cancel_url: `${window.location.origin}/#prezzi`
     };
 
