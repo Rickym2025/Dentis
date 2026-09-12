@@ -879,5 +879,172 @@
     <!-- Script Motore di Pagamento Stripe On-The-Fly -->
     <script src="pricing.js"></script>
     <script src="https://rmstudio.app/public/cookie-banner.js" defer></script>
+
+    <!-- ── CHATBOT WIDGET: SERENA AI (RECEPTIONIST ODONTOIATRICA H24) ── -->
+    <div id="dentis-chatbot-container"></div>
+    <script>
+    const WEBHOOK_DENTIS_CHATBOT = 'https://n8n.rmstudio.app/webhook/dentis-chat';
+    let dentisChatSessionId = localStorage.getItem('dentis_chat_session') || ('den_' + Math.random().toString(36).substring(7));
+    localStorage.setItem('dentis_chat_session', dentisChatSessionId);
+    let dentisChatIsOpen = window.innerWidth > 900;
+
+    function injectDentisChatbot() {
+        const container = document.getElementById('dentis-chatbot-container');
+        if (!container) return;
+        
+        container.innerHTML = `
+        <style>
+        :root {
+            --dn-cyan: #00e5f2;
+            --dn-surface: rgba(6, 11, 25, 0.96);
+            --dn-surface2: rgba(10, 20, 38, 0.96);
+            --dn-text: #f1f5f9;
+            --dn-black: #030712;
+            --dn-border: rgba(0, 229, 242, 0.25);
+            --dn-green: #22c55e;
+        }
+        #dn-bubble { position:fixed; bottom:30px; left:30px; width:65px; height:65px;
+            border-radius:50%; background:var(--dn-cyan); box-shadow:0 10px 25px rgba(0,229,242,.4);
+            cursor:pointer; z-index:9999; display:flex; align-items:center; justify-content:center;
+            border:2px solid #030712; transition:transform .3s; }
+        #dn-bubble:hover { transform:scale(1.1); }
+        #dn-window { position:fixed; bottom:110px; left:30px; width:360px; height:540px;
+            background:var(--dn-surface); backdrop-filter: blur(16px); border-radius:20px; box-shadow:0 20px 60px rgba(0,0,0,.9);
+            z-index:9999; display:none; flex-direction:column; overflow:hidden;
+            font-family:'DM Sans', sans-serif; border:1px solid var(--dn-border); }
+        .dn-header { background:var(--dn-surface2); border-bottom:1px solid var(--dn-border); color:var(--dn-text);
+            padding:16px 20px; font-weight:700; display:flex; justify-content:space-between; align-items:center; }
+        .dn-messages { flex:1; padding:20px; overflow-y:auto; background:var(--dn-black);
+            display:flex; flex-direction:column; gap:14px; scroll-behavior:smooth; }
+        .dn-msg { padding:14px 18px; border-radius:18px; font-size:14px; max-width:88%; line-height:1.55; }
+        .dn-msg.bot  { background:var(--dn-surface2); color:var(--dn-text); border:1px solid var(--dn-border);
+            align-self:flex-start; border-bottom-left-radius:4px; }
+        .dn-msg.user { background:var(--dn-cyan); color:var(--dn-black); font-weight:600;
+            align-self:flex-end; border-bottom-right-radius:4px; }
+        .dn-msg b { font-weight:700; color:var(--dn-cyan); }
+        .dn-msg.user b { color:var(--dn-black); }
+        .dn-chips { display:flex; flex-wrap:wrap; gap:8px; padding:0 20px 16px; background:var(--dn-black); }
+        .dn-chip { background:var(--dn-surface2); border:1px solid var(--dn-border); color:var(--dn-cyan);
+            padding:7px 12px; border-radius:20px; font-size:12px; cursor:pointer; transition:.2s; font-weight:600; }
+        .dn-chip:hover { background:var(--dn-cyan); color:var(--dn-black); }
+        .dn-input-area { padding:14px; border-top:1px solid var(--dn-border); display:flex; gap:10px; background:var(--dn-surface2); }
+        .dn-input-area input { flex:1; border:1px solid var(--dn-border); border-radius:10px; padding:10px 14px;
+            outline:none; font-size:14px; color:var(--dn-text); background:var(--dn-black); font-family:inherit; }
+        .dn-input-area input:focus { border-color:var(--dn-cyan); }
+        .dn-input-area button { background:var(--dn-cyan); border:none; border-radius:10px; color:var(--dn-black);
+            cursor:pointer; font-weight:800; font-size:13px; padding:0 16px; transition:.2s; }
+        .dn-input-area button:hover { transform:translateY(-2px); }
+        .typing-dot-dn { width:6px; height:6px; background:var(--dn-cyan); border-radius:50%;
+            display:inline-block; animation:dntyping 1.4s infinite ease-in-out; margin-right:3px; }
+        .typing-dot-dn:nth-child(2) { animation-delay:.2s; }
+        .typing-dot-dn:nth-child(3) { animation-delay:.4s; }
+        @keyframes dntyping { 0%,80%,100%{transform:translateY(0)} 40%{transform:translateY(-5px)} }
+        @media(max-width:450px) {
+            #dn-window { width:calc(100% - 40px); height:490px; left:20px; bottom:90px; }
+            #dn-bubble { bottom:20px; left:20px; }
+        }
+        </style>
+
+        <div id="dn-bubble" title="Parla con Serena AI">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+        </div>
+
+        <div id="dn-window">
+            <div class="dn-header">
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <div style="width:34px;height:34px;background:rgba(0,229,242,.15);border:1px solid var(--dn-cyan);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--dn-cyan);font-size:16px;">🦷</div>
+                    <div style="display:flex;flex-direction:column;">
+                        <span style="font-size:15px;line-height:1.2;font-weight:bold;">Serena AI</span>
+                        <span style="font-size:11px;color:var(--dn-green);font-weight:normal;">● Receptionist Odontoiatrica</span>
+                    </div>
+                </div>
+                <button id="dn-close-btn" style="background:none;border:none;color:var(--dn-text);opacity:0.5;font-size:26px;cursor:pointer;line-height:1;">&times;</button>
+            </div>
+            <div id="dn-messages" class="dn-messages">
+                <div class="dn-msg bot">
+                    Buongiorno! Sono <b>Serena</b>, la receptionist telefonica intelligente per studi dentistici. 🦷<br><br>
+                    Posso spiegarle come <b>azzerare le chiamate perse H24</b>, gestire il triage delle urgenze e sincronizzare l'agenda. In cosa posso esserle utile?
+                </div>
+            </div>
+            <div id="dn-chips-container" class="dn-chips">
+                <div class="dn-chip" onclick="sendDnMsg('Come funziona la deviazione di chiamata?')">Come funziona?</div>
+                <div class="dn-chip" onclick="sendDnMsg('Come si integra con Google Calendar?')">Google Calendar</div>
+                <div class="dn-chip" onclick="sendDnMsg('Come gestisce le urgenze e il mal di denti?')">Triage Urgenze</div>
+            </div>
+            <div class="dn-input-area">
+                <input type="text" id="dn-input" placeholder="Scrivi una domanda..." onkeypress="if(event.key==='Enter') sendDnMsg()">
+                <button onclick="sendDnMsg()">Invia</button>
+            </div>
+        </div>
+        `;
+
+        document.getElementById('dn-bubble').addEventListener('click', toggleDnChat);
+        document.getElementById('dn-close-btn').addEventListener('click', toggleDnChat);
+        document.getElementById('dn-window').style.display = dentisChatIsOpen ? 'flex' : 'none';
+    }
+
+    function toggleDnChat() {
+        const win = document.getElementById('dn-window');
+        dentisChatIsOpen = !dentisChatIsOpen;
+        win.style.display = dentisChatIsOpen ? 'flex' : 'none';
+    }
+
+    async function sendDnMsg(textOverride) {
+        const input = document.getElementById('dn-input');
+        const text = (textOverride || input.value).trim();
+        if (!text) return;
+
+        input.value = '';
+        addDnMsg(text, 'user');
+
+        const chips = document.getElementById('dn-chips-container');
+        if (chips) chips.style.display = 'none';
+
+        const loadingId = 'dn-loading-' + Date.now();
+        addDnMsg('<span class="typing-dot-dn"></span><span class="typing-dot-dn"></span><span class="typing-dot-dn"></span>', 'bot', loadingId);
+
+        try {
+            const res = await fetch(WEBHOOK_DENTIS_CHATBOT, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: text, sessionId: dentisChatSessionId, settore: 'odontoiatria' }),
+                signal: AbortSignal.timeout(15000)
+            });
+
+            const raw = await res.text();
+            let reply = 'Sto elaborando la risposta per il tuo studio...';
+            if (raw && raw.trim() !== '') {
+                try {
+                    const data = JSON.parse(raw);
+                    reply = data.output || data.response || data.text || reply;
+                } catch (_) { reply = raw; }
+            }
+
+            const loadEl = document.getElementById(loadingId);
+            if (loadEl) loadEl.remove();
+            addDnMsg(reply, 'bot');
+        } catch (err) {
+            const loadEl = document.getElementById(loadingId);
+            if (loadEl) loadEl.remove();
+            addDnMsg('I server sono momentaneamente impegnati. Ti invitiamo a riprovare tra qualche istante.', 'bot');
+        }
+    }
+
+    function addDnMsg(text, sender, id) {
+        const div = document.createElement('div');
+        div.className = `dn-msg ${sender}`;
+        if (id) div.id = id;
+        div.innerHTML = text
+            .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
+            .replace(/\n/g, '<br>');
+        const box = document.getElementById('dn-messages');
+        box.appendChild(div);
+        box.scrollTo({ top: box.scrollHeight, behavior: 'smooth' });
+    }
+
+    document.addEventListener('DOMContentLoaded', injectDentisChatbot);
+    </script>
 </body>
 </html>
