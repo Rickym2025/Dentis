@@ -14,9 +14,9 @@
       "offers": {
         "@type": "AggregateOffer",
         "priceCurrency": "EUR",
-        "lowPrice": "79.00",
-        "highPrice": "299.00",
-        "offerCount": "3",
+        "lowPrice": "49.00",
+        "highPrice": "349.00",
+        "offerCount": "6",
         "offers": [
           {
             "@type": "Offer",
@@ -62,6 +62,27 @@
                 "unitCode": "MONTH"
               }
             }
+          },
+          {
+            "@type": "Offer",
+            "name": "Ricarica Base (100 min)",
+            "price": "49.00",
+            "priceCurrency": "EUR",
+            "description": "Pacchetto prepagato 100 minuti di chiamate senza abbonamento mensile."
+          },
+          {
+            "@type": "Offer",
+            "name": "Ricarica Pro (450 min)",
+            "price": "179.00",
+            "priceCurrency": "EUR",
+            "description": "Pacchetto prepagato 450 minuti con Google Calendar e promemoria WhatsApp senza abbonamento."
+          },
+          {
+            "@type": "Offer",
+            "name": "Ricarica Max (1000 min)",
+            "price": "349.00",
+            "priceCurrency": "EUR",
+            "description": "Pacchetto prepagato 1000 minuti per cliniche ad alto volume senza canone mensile."
           }
         ]
       },
@@ -541,9 +562,16 @@
                         <label class="block text-sm text-zinc-400 mb-2 uppercase tracking-widest font-bold text-xs">Piano desiderato dopo la prova *</label>
                         <select id="reg-piano" required class="w-full bg-black/50 border border-white/10 text-white rounded-xl px-4 py-3 outline-none focus:border-brandCyan transition-colors appearance-none text-sm">
                             <option value="Prova">Trial Gratuito (7 Giorni)</option>
-                            <option value="starter" data-plan-option="starter">Serena Starter (Fuori Orario - 79€/mese)</option>
-                            <option value="pro" data-plan-option="pro">Serena PRO (H24 + WhatsApp Reminders - 149€/mese)</option>
-                            <option value="elite" data-plan-option="elite">Clinic Elite (Multi-sede + Supporto - 299€/mese)</option>
+                            <optgroup label="📅 Abbonamento Mensile">
+                                <option value="starter" data-plan-option="starter">Serena Starter (Fuori Orario - 79€/mese)</option>
+                                <option value="pro" data-plan-option="pro">Serena PRO (H24 + WhatsApp Reminders - 149€/mese)</option>
+                                <option value="elite" data-plan-option="elite">Clinic Elite (Multi-sede + Supporto - 299€/mese)</option>
+                            </optgroup>
+                            <optgroup label="⚡ A Crediti / Minuti (Senza Canone)">
+                                <option value="pack_100" data-plan-option="pack_100">Ricarica Base (100 min - 49€ una tantum)</option>
+                                <option value="pack_450" data-plan-option="pack_450">Ricarica Pro (450 min - 179€ una tantum)</option>
+                                <option value="pack_1000" data-plan-option="pack_1000">Ricarica Max (1000 min - 349€ una tantum)</option>
+                            </optgroup>
                         </select>
                     </div>
                     <div>
@@ -620,16 +648,29 @@
         });
         </script>
 
-        <!-- PRICING SECTION -->
+        <!-- PRICING SECTION (ABBONAMENTI + CREDITI A MINUTI) -->
         <section id="prezzi" class="py-24 px-6 border-t border-white/5 bg-zinc-950/30">
             <div class="max-w-6xl mx-auto">
-                <div class="text-center mb-20">
+                <div class="text-center mb-10">
                     <p class="font-mono text-xs text-brandCyan uppercase tracking-[5px] mb-4">Investimento</p>
                     <h2 class="text-3xl md:text-5xl font-black tracking-tight uppercase">Un solo appuntamento recuperato ripaga l&apos;anno</h2>
-                    <p class="text-zinc-400 text-sm mt-3">Nessun costo fisso d&apos;attivazione. Scegli il piano ideale per le dimensioni del tuo studio dentistico.</p>
+                    <p class="text-zinc-400 text-sm mt-3">Scegli se preferisci un abbonamento mensile illimitato oppure una ricarica a minuti senza canoni fissi.</p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 items-stretch max-w-6xl mx-auto">
+                <!-- TOGGLE MODALITÀ ABBONAMENTO / CREDITI -->
+                <div class="flex justify-center mb-14">
+                    <div class="inline-flex flex-wrap justify-center p-1.5 rounded-2xl bg-zinc-900/90 border border-white/10 gap-1.5">
+                        <button type="button" id="btn-mode-monthly" onclick="setDentisPricingMode('monthly')" class="px-6 py-3 rounded-xl text-xs sm:text-sm font-black uppercase tracking-wider bg-brandCyan text-black shadow-lg transition-all cursor-pointer">
+                            📅 Abbonamento Mensile
+                        </button>
+                        <button type="button" id="btn-mode-credits" onclick="setDentisPricingMode('credits')" class="px-6 py-3 rounded-xl text-xs sm:text-sm font-bold uppercase tracking-wider text-zinc-300 hover:text-white transition-all cursor-pointer">
+                            ⚡ A Crediti / Minuti (Senza Canone)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- GRIGLIA 1: ABBONAMENTI MENSILI -->
+                <div id="dentis-plans-monthly" class="grid grid-cols-1 md:grid-cols-4 gap-6 items-stretch max-w-6xl mx-auto">
                     
                     <!-- PACCHETTO 1: PROVA GRATIS -->
                     <div class="card-glow glass-panel p-6 rounded-3xl flex flex-col justify-between border border-white/5 group">
@@ -667,7 +708,7 @@
                             </div>
                             
                             <ul class="text-xs text-zinc-300 space-y-3 mb-8">
-                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Risposta attiva **fuori orario** (notti e weekend)</li>
+                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Risposta attiva <b>fuori orario</b> (notti e weekend)</li>
                                 <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Notifica appuntamenti presi direttamente via Email</li>
                                 <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Configurazione rapida deviazione chiamate</li>
                             </ul>
@@ -693,10 +734,10 @@
                             
                             <p class="text-[11px] text-brandCyan font-medium mb-6">Meno di 5€ al giorno. Un solo nuovo paziente acquisito ripaga l&apos;intero anno.</p>
                             <ul class="text-xs text-zinc-200 space-y-3 mb-8">
-                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> **Risposta H24** (anche quando la segretaria è occupata)</li>
-                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> **Triage urgenze prioritarie** (es. forte mal di denti)</li>
+                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> <b>Risposta H24</b> (anche quando la segretaria è occupata)</li>
+                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> <b>Triage urgenze prioritarie</b> (es. forte mal di denti)</li>
                                 <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Sincronizzazione automatica Google Calendar</li>
-                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Promemoria automatici via SMS/WhatsApp & Email</li>
+                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Promemoria automatici via SMS/WhatsApp &amp; Email</li>
                                 <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Report mensile delle chiamate e delle urgenze</li>
                             </ul>
                         </div>
@@ -727,6 +768,97 @@
                         </div>
                         <button onclick="avviaCheckoutDentis('elite')" class="block text-center w-full border border-white/20 text-white hover:bg-white/10 py-3 rounded-xl font-bold transition-all text-xs uppercase tracking-widest cursor-pointer">
                             Richiedi Elite
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- GRIGLIA 2: A CREDITI / MINUTI (SENZA ABBONAMENTO) -->
+                <div id="dentis-plans-credits" class="hidden grid grid-cols-1 md:grid-cols-4 gap-6 items-stretch max-w-6xl mx-auto">
+
+                    <!-- PROVA GRATIS -->
+                    <div class="card-glow glass-panel p-6 rounded-3xl flex flex-col justify-between border border-white/5 group">
+                        <div>
+                            <span class="text-zinc-500 font-bold uppercase tracking-widest text-[10px] block mb-2">Prova Senza Carta</span>
+                            <h3 class="text-lg font-bold text-white mb-1">7 Giorni Gratis</h3>
+                            <p class="text-xs text-zinc-400 mb-6 leading-relaxed">Testa Serena dal vivo prima di ricaricare qualsiasi pacchetto.</p>
+                            <div class="mb-7 flex items-end gap-1">
+                                <span class="text-4xl font-black text-white">Gratis</span>
+                            </div>
+                            <ul class="text-xs text-zinc-300 space-y-3 mb-8">
+                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> 7 Giorni di prova completi</li>
+                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Integrazione Google Calendar</li>
+                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Nessun rinnovo automatico</li>
+                            </ul>
+                        </div>
+                        <a href="#registrazione-sezione" class="block text-center w-full border border-white/20 text-white hover:bg-white/10 py-3 rounded-xl font-bold transition-all text-xs uppercase tracking-widest">
+                            Inizia Gratis
+                        </a>
+                    </div>
+
+                    <!-- PACK 100 MINUTI -->
+                    <div class="card-glow glass-panel p-6 rounded-3xl flex flex-col justify-between border border-white/5 group">
+                        <div>
+                            <span class="text-zinc-500 font-bold uppercase tracking-widest text-[10px] block mb-2">Pay-As-You-Go</span>
+                            <h3 class="text-lg font-bold text-white mb-1">Ricarica Base</h3>
+                            <p class="text-xs text-zinc-400 mb-6 leading-relaxed"><b>100 minuti</b> di chiamate AI reali. Zero abbonamenti mensili.</p>
+                            <div class="mb-7 flex items-end gap-1">
+                                <span class="text-4xl font-black text-white" data-price-plan="pack_100">€ 49</span>
+                                <span class="text-zinc-500 text-xs pb-1">una tantum</span>
+                            </div>
+                            <ul class="text-xs text-zinc-300 space-y-3 mb-8">
+                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> <b>100 minuti</b> di conversazione inclusi</li>
+                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Validità 12 mesi, nessun vincolo</li>
+                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Google Calendar &amp; Report Email</li>
+                            </ul>
+                        </div>
+                        <button onclick="avviaCheckoutDentis('pack_100')" class="block text-center w-full border border-white/20 text-white hover:bg-white/10 py-3 rounded-xl font-bold transition-all text-xs uppercase tracking-widest cursor-pointer">
+                            Ricarica 100 Min
+                        </button>
+                    </div>
+
+                    <!-- PACK 450 MINUTI (SCELTA D'ORO CREDITI) -->
+                    <div class="decoy-highlight-card glass-panel p-6 rounded-3xl flex flex-col justify-between relative transform md:-translate-y-4 bg-gradient-to-b from-cyan-950/20 to-black z-10 scale-105">
+                        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-brandCyan text-black text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full shadow-lg text-center w-[90%] truncate">PIÙ SCELTO A CONSUMO</div>
+                        <div>
+                            <span class="text-brandCyan font-bold uppercase tracking-widest text-[10px] block mb-2 mt-2">Senza Abbonamento</span>
+                            <h3 class="text-lg font-bold text-white mb-1">Ricarica Pro</h3>
+                            <p class="text-xs text-zinc-200 mb-6 leading-relaxed"><b>450 minuti</b> di ricezione H24 con numero dedicato incluso per 1 anno.</p>
+                            <div class="mb-7 flex items-end gap-1">
+                                <span class="text-4xl font-black text-white" data-price-plan="pack_450">€ 179</span>
+                                <span class="text-zinc-500 text-xs pb-1">una tantum</span>
+                            </div>
+                            <p class="text-[11px] text-brandCyan font-medium mb-6">Solo ~0,39€ al minuto. Quando lo studio è chiuso in ferie non spendi nulla.</p>
+                            <ul class="text-xs text-zinc-200 space-y-3 mb-8">
+                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> <b>450 minuti</b> (validità 12 mesi)</li>
+                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> <b>Numero Dedicato incluso 12 mesi</b></li>
+                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Triage urgenze &amp; Google Calendar</li>
+                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Promemoria WhatsApp &amp; Email</li>
+                            </ul>
+                        </div>
+                        <button onclick="avviaCheckoutDentis('pack_450')" class="block text-center w-full bg-brandCyan text-black font-black py-4 rounded-xl text-xs uppercase tracking-widest hover:bg-cyan-400 transition-all shadow-lg shadow-cyan-500/25 cursor-pointer">
+                            RICARICA 450 MIN 🔥
+                        </button>
+                    </div>
+
+                    <!-- PACK 1000 MINUTI -->
+                    <div class="card-glow glass-panel p-6 rounded-3xl flex flex-col justify-between border border-white/5 group opacity-85 hover:opacity-100">
+                        <div>
+                            <span class="text-zinc-500 font-bold uppercase tracking-widest text-[10px] block mb-2">Alto Volume</span>
+                            <h3 class="text-lg font-bold text-white mb-1">Ricarica Max</h3>
+                            <p class="text-xs text-zinc-400 mb-6 leading-relaxed"><b>1.000 minuti</b> per studi associati che vogliono pagare solo il traffico reale.</p>
+                            <div class="mb-7 flex items-end gap-1">
+                                <span class="text-4xl font-black text-white" data-price-plan="pack_1000">€ 349</span>
+                                <span class="text-zinc-500 text-xs pb-1">una tantum</span>
+                            </div>
+                            <ul class="text-xs text-zinc-300 space-y-3 mb-8">
+                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> <b>1.000 minuti</b> (~0,34€/min)</li>
+                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Numero Dedicato incluso 12 mesi</li>
+                                <li class="flex items-center gap-2"><span class="text-brandCyan">✓</span> Multi-calendario &amp; supporto prioritario</li>
+                            </ul>
+                        </div>
+                        <button onclick="avviaCheckoutDentis('pack_1000')" class="block text-center w-full border border-white/20 text-white hover:bg-white/10 py-3 rounded-xl font-bold transition-all text-xs uppercase tracking-widest cursor-pointer">
+                            Ricarica 1000 Min
                         </button>
                     </div>
 
